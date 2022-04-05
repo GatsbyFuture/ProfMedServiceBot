@@ -1,0 +1,29 @@
+{
+  "name": "ProfMedServiceBot",
+  "version": "1.0.0",
+  "description": "This bot can send the staff's salary",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GatsbyFuture/ProfMedServiceBot.git"
+  },
+  "keywords": [
+    "staff",
+    "salary",
+    "show salary"
+  ],
+  "author": "Raxmatov Eldorbek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GatsbyFuture/ProfMedServiceBot/issues"
+  },
+  "homepage": "https://github.com/GatsbyFuture/ProfMedServiceBot#readme",
+  "dependencies": {
+    "nodemon": "^2.0.15",
+    "telegraf": "^3.38.0"
+  }
+}
