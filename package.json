@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/GatsbyFuture/ProfMedServiceBot#readme",
   "dependencies": {
+    "axios": "^0.26.1",
     "nodemon": "^2.0.15",
     "telegraf": "^3.38.0"
   }
