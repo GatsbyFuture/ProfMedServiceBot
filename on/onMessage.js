@@ -1,33 +1,52 @@
 const { Composer } = require('telegraf');
 const { bot } = require('../core/run');
 const composer = new Composer();
-const axios = require('axios').default;
-const https = require('https');
-const fs = require('fs');
-const bot_token = "1918886076:AAGkIpT42ip8eD1zV9Ec5k4smSGF9ulpx8s";
+const { start_fun, mainThree, sendContact,
+    main_buttons,
+    send_excel,
+    down_excel } = require('../controller/function.js');
+const config = require('config');
+
 composer.on('message', async (ctx) => {
     try {
-        let file_path = undefined;
-        await axios.post(`https://api.telegram.org/bot1918886076:AAGkIpT42ip8eD1zV9Ec5k4smSGF9ulpx8s/getFile?file_id=${ctx.update.message.document.file_id}`)
-            .then((result) => {
-                // console.log(result.data.result.file_path);
-                if (result.status == 200)
-                    file_path = result.data.result.file_path;
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-        https.get(`https://api.telegram.org/file/bot1918886076:AAGkIpT42ip8eD1zV9Ec5k4smSGF9ulpx8s/${file_path}`, (res) => {
-            const fileStream = fs.createWriteStream(`E:/ProfMedServiceBot/archive/${ctx.update.message.document.file_name}`);
-            res.pipe(fileStream);
-            fileStream.on('finish', () => {
-                fileStream.close();
-                console.log("Yuklandi!");
-            });
-        });
+        let phoneNumber = false;
+        if (ctx.message.contact) {
+            phoneNumber = ctx.message.contact.phone_number;
+            ctx.replyWithHTML('Nomeringiz qabul qilindi...' + phoneNumber)
+            await sendContact(ctx, phoneNumber);
+        } else if (ctx.i18n.t('sendConConsole') == ctx.message.text) {
+            ctx.deleteMessage(ctx.session.consoleCon.message_id);
+            ctx.deleteMessage();
+            ctx.session.consoleCon = undefined;
+            await start_fun(ctx);
+        }
+        // asosiy menular
+        switch (ctx.message.text) {
+            case ctx.i18n.t('mainFuntion0'): ctx.reply('1'); break;
+            case ctx.i18n.t('mainFuntion1'): ctx.reply('2'); break;
+            case ctx.i18n.t('mainFuntion2'): await mainThree(ctx); break;
+            // admin uchun kirish...
+            case config.get('password_admin'): await main_buttons(ctx); break;
+            case "🗂  Excel file jo'natish": await send_excel(ctx); break;
+            case "📤 Xabar jo'natish": ctx.reply('12'); break;
+            // case "🔍 Qidirish": ctx.reply('13');
+            default: break;
+        }
+        // fileni yuklab olish uchun...
+        if (ctx.session.rideFile) {
+            if (ctx.update.message.document) {
+                await down_excel(ctx);
+                await main_buttons(ctx);
+                ctx.session.rideFile = false;
+            } else {
+                ctx.replyWithHTML("<b>❗️ File formati xato!</b> <i>Namuna: 'xlsx'</i>");
+                await main_buttons(ctx);
+                ctx.session.rideFile = false;
+            }
+        }
     } catch (err) {
         console.log(err);
     }
 });
-
+// Admin panel uchun parolni ilib olish...
 bot.use(composer.middleware())

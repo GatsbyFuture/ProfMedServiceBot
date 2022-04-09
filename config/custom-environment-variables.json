@@ -1,0 +1,6 @@
+{
+    "password_db":"PASSWORD_DB",
+    "db_base":"DB_BASE",
+    "bot_token":"BOT_TOKEN",
+    "password_admin":"PASSWORD_ADMIN"
+}

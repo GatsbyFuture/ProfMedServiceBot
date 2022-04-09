@@ -24,7 +24,12 @@
   "homepage": "https://github.com/GatsbyFuture/ProfMedServiceBot#readme",
   "dependencies": {
     "axios": "^0.26.1",
+    "config": "^3.3.7",
+    "dotenv": "^16.0.0",
+    "mysql2": "^2.3.3",
     "nodemon": "^2.0.15",
-    "telegraf": "^3.38.0"
+    "telegraf": "^3.38.0",
+    "telegraf-i18n": "^6.6.0",
+    "xlsx": "^0.18.5"
   }
 }
