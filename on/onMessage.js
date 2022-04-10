@@ -4,7 +4,8 @@ const composer = new Composer();
 const { start_fun, mainThree, sendContact,
     main_buttons,
     send_excel,
-    down_excel } = require('../controller/function.js');
+    down_excel,
+    read_excel } = require('../controller/function.js');
 const config = require('config');
 
 composer.on('message', async (ctx) => {
@@ -28,14 +29,16 @@ composer.on('message', async (ctx) => {
             // admin uchun kirish...
             case config.get('password_admin'): await main_buttons(ctx); break;
             case "🗂  Excel file jo'natish": await send_excel(ctx); break;
-            case "📤 Xabar jo'natish": ctx.reply('12'); break;
+            case "📨 File taqdim etish": await read_excel(ctx); break;
+            case "📤 Xabar jo'natish": ctx.reply('14'); break;
             // case "🔍 Qidirish": ctx.reply('13');
             default: break;
         }
         // fileni yuklab olish uchun...
         if (ctx.session.rideFile) {
+            // console.log(ctx.update.message.document);
             if (ctx.update.message.document) {
-                await down_excel(ctx);
+                ctx.session.file_name = await down_excel(ctx);
                 await main_buttons(ctx);
                 ctx.session.rideFile = false;
             } else {

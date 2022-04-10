@@ -4,8 +4,13 @@ const axios = require('axios').default;
 const Extra = require('telegraf/extra');
 const Markup = require("telegraf/markup");
 const https = require('https');
+const XLSX = require('xlsx');
 const fs = require('fs');
-
+const {
+    data_dateW,
+    data_userW,
+    data_reportW
+} = require('../model/crudData');
 // start bosganda ishga tushadigan function...
 const start_fun = async (ctx) => {
     await ctx.replyWithHTML("<b>Tilni tanlang | Тилни танланг \n Выберите язык ⬇️</b>",
@@ -86,11 +91,10 @@ const mainThree = async (ctx) => {
 }
 // Admin panel uchun functions
 const main_buttons = async (ctx) => {
-    ctx.deleteMessage();
     ctx.session.exit_type = true;
     ctx.session.adminx = await ctx.replyWithHTML("Marhamat xush kelibsiz!",
         Markup.keyboard([
-            ["🗂  Excel file jo'natish"],
+            ["🗂  Excel file jo'natish", "📨 File taqdim etish"],
             ["📤 Xabar jo'natish"],
             // ["🔍 Qidirish"],
             [ctx.i18n.t('mainFuntion2')]
@@ -117,8 +121,10 @@ const down_excel = async (ctx) => {
         await axios.post(`https://api.telegram.org/bot1918886076:AAGkIpT42ip8eD1zV9Ec5k4smSGF9ulpx8s/getFile?file_id=${ctx.update.message.document.file_id}`)
             .then((result) => {
                 // console.log(result.data.result.file_path);
-                if (result.status == 200)
+                if (result.status == 200) {
                     file_path = result.data.result.file_path;
+                    console.log(file_path);
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -132,8 +138,29 @@ const down_excel = async (ctx) => {
                 // console.log("Yuklandi!");
             });
         });
+        return ctx.update.message.document.file_name;
     } catch (err) {
         console.log("Fileni yuklashda xatolik: " + err);
+    }
+}
+// Excelni fileni malumotlarini o'tib olish...
+const read_excel = async (ctx) => {
+    try {
+        const workbook = XLSX.readFile(`E:/ProfMedServiceBot/archive/${ctx.session.file_name}`);
+        const workbookSheets = workbook.SheetNames;
+        // console.log(workbookSheets);
+        const sheet = workbookSheets[0];
+        const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+        console.log(dataExcel);
+        // Kelgan malumotini datasini yozadi...
+        await data_dateW(dataExcel[0]);
+        // Kelgan user datalarini yozadi...
+        await data_userW(ctx,dataExcel[0],dataExcel[5]);
+        // Kelgan ITOGO ni datasini yozish...
+        await data_reportW(dataExcel[0],dataExcel[dataExcel.length-1]);
+        
+    } catch (err) {
+        console.log("Fileni o'qib olishda xatolik :" + err);
     }
 }
 module.exports = {
@@ -146,5 +173,6 @@ module.exports = {
     // admin panel ...
     main_buttons,
     send_excel,
-    down_excel
+    down_excel,
+    read_excel
 }
