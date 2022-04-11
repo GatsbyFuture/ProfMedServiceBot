@@ -1,5 +1,6 @@
 const { Composer } = require('telegraf');
 const { start_fun } = require('../controller/function');
+const { check_user } = require('../model/crudData');
 const { bot } = require('../core/run');
 const composer = new Composer();
 
@@ -8,8 +9,12 @@ composer.start(async (ctx) => {
     try {
         // choice language...
         // check databases
+        let check = await check_user(ctx.message.from.id);
+        if (check)
+            ctx.session.checkUser = true;
+        else
+            ctx.session.checkUser = false;
         await start_fun(ctx);
-        ctx.session.checkUser = false;
         ctx.session.rideFile = undefined;
     } catch (err) {
         console.log(err);

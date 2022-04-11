@@ -10,10 +10,10 @@ const config = require('config');
 
 composer.on('message', async (ctx) => {
     try {
-        let phoneNumber = false;
+        let phoneNumber = undefined;
         if (ctx.message.contact) {
             phoneNumber = ctx.message.contact.phone_number;
-            ctx.replyWithHTML('Nomeringiz qabul qilindi...' + phoneNumber)
+            ctx.replyWithHTML('Nomeringiz tekshirilmoqda...' + phoneNumber)
             await sendContact(ctx, phoneNumber);
         } else if (ctx.i18n.t('sendConConsole') == ctx.message.text) {
             ctx.deleteMessage(ctx.session.consoleCon.message_id);
@@ -21,13 +21,16 @@ composer.on('message', async (ctx) => {
             ctx.session.consoleCon = undefined;
             await start_fun(ctx);
         }
-        // asosiy menular
+        // asosiy menular bilna ishlash...
         switch (ctx.message.text) {
             case ctx.i18n.t('mainFuntion0'): ctx.reply('1'); break;
             case ctx.i18n.t('mainFuntion1'): ctx.reply('2'); break;
             case ctx.i18n.t('mainFuntion2'): await mainThree(ctx); break;
             // admin uchun kirish...
-            case config.get('password_admin'): await main_buttons(ctx); break;
+            case config.get('password_admin'):
+                await main_buttons(ctx);
+                ctx.session.admin = true; break;
+            case "exit@0020912": ctx.session.admin = false; break;
             case "🗂  Excel file jo'natish": await send_excel(ctx); break;
             case "📨 File taqdim etish": await read_excel(ctx); break;
             case "📤 Xabar jo'natish": ctx.reply('14'); break;

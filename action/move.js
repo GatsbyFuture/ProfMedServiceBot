@@ -1,5 +1,5 @@
 const { Composer } = require('telegraf');
-const { youWantConnect, pushContanct } = require('../controller/function');
+const { youWantConnect, pushContanct, main_buttons, allBaseBtn } = require('../controller/function');
 const { bot } = require("../core/run");
 
 const composer = new Composer();
@@ -9,6 +9,9 @@ composer.action('rus', async (ctx) => {
         if (ctx.session.checkUser) {
             ctx.i18n.locale('ru');
             await allBaseBtn(ctx);
+        } else if (ctx.session.admin) {
+            ctx.i18n.locale('ru');
+            await main_buttons(ctx);
         } else {
             ctx.i18n.locale('ru');
             await youWantConnect(ctx);
@@ -23,6 +26,9 @@ composer.action('uz', async (ctx) => {
         if (ctx.session.checkUser) {
             ctx.i18n.locale('oz');
             await allBaseBtn(ctx);
+        } else if (ctx.session.admin) {
+            ctx.i18n.locale('oz');
+            await main_buttons(ctx);
         } else {
             ctx.i18n.locale('oz');
             await youWantConnect(ctx);
@@ -37,6 +43,9 @@ composer.action('уз', async (ctx) => {
         if (ctx.session.checkUser) {
             ctx.i18n.locale('uz');
             await allBaseBtn(ctx);
+        } else if (ctx.session.admin) {
+            ctx.i18n.locale('uz');
+            await main_buttons(ctx);
         } else {
             ctx.i18n.locale('uz');
             await youWantConnect(ctx);

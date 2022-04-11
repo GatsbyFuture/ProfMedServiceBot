@@ -9,10 +9,17 @@
     "repeadContact": "Iltimos qayta ro'yxatdan o'ting",
     "connectError": "Kechirasiz tizimda xatolik yuz berdi qayta urining!",
     "waitcodeSms": "Sizga sms bo'lib kod boradi iltimos kuting va kiriting:",
-    "mainFuntion0":"💵 Oylik xisoboti",
-    "mainFuntion1":"📊 umumiy arxiv",
-    "mainFuntion2":"🇺🇿 Tilni o'zgartish",
-    "mainFuntion3":"Marhamat xizmatlarga xush kelibsiz",
+    "mainFuntion0": "💵 Oylik xisoboti",
+    "mainFuntion1": "📊 umumiy arxiv",
+    "mainFuntion2": "🇺🇿 Tilni o'zgartish",
+    "mainFuntion3": "Marhamat xizmatlarga xush kelibsiz",
     "ourdata": "✅ {clinic_name} \n\n 📍 <b>Manzil</b> :{clinic_adress} \n\n ☎️ <b>Telfon raqam</b>:\n{clinic_numbers} \n\n⏱ <b>Ish vaqtlari</b> :{clinic_times}",
-    "profil": "🔑<b> Sizning shaxsiy raqamingiz ID :</b> {id}\n\n👤<b> I.F.O :</b> {first_n} {last_n} {nick_n}\n\n ⏳<b> Tug'ulgan sana :</b> {borth_date} \n\n🧰<b> Mutaxasisligi :</b> {specialist}\n\n📌<b> Ish joyi :</b> {place}\n📞<b> Telefon raqam :</b> {tel_nuber}\n\n 💳<b> Karta raqam :</b> {card_number}"
+    "profil": "🔑<b> Sizning shaxsiy raqamingiz ID :</b> {id}\n\n👤<b> I.F.O :</b> {first_n} {last_n} {nick_n}\n\n ⏳<b> Tug'ulgan sana :</b> {borth_date} \n\n🧰<b> Mutaxasisligi :</b> {specialist}\n\n📌<b> Ish joyi :</b> {place}\n📞<b> Telefon raqam :</b> {tel_nuber}\n\n 💳<b> Karta raqam :</b> {card_number}",
+    "addmin_desc": "Marhamat xush kelibsiz!",
+    "send_file_desc":"<code>Excel file ni yuboring !</code>",
+    "send_file_btn": "🗂  Excel file jo'natish",
+    "read_file_btn": "📨 File taqdim etish",
+    "send_message_btn": "📤 Xabar jo'natish",
+    "down_file": "✅ <code>File muvofaqiyatli yuklandi!</code>",
+    "copy_file_data": "✅ <code>Malumotlar muofiqiyatli ko'chirildi !</code>"
 }

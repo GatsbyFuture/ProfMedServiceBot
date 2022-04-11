@@ -10,6 +10,9 @@ const {
     data_dateW,
     data_userW,
     data_reportW
+} = require('../model/packData');
+const {
+    check_number
 } = require('../model/crudData');
 // start bosganda ishga tushadigan function...
 const start_fun = async (ctx) => {
@@ -54,7 +57,9 @@ const pushContanct = async (ctx) => {
 const sendContact = async (ctx, phoneNumber) => {
     ctx.deleteMessage(ctx.session.consoleCon.message_id);
     // bazadan userni qidiradi tel nomeri bo'yicha keyin qo'lsa true or false
-    if (true) {
+    let result = await check_number(ctx.message.from.id, phoneNumber);
+    if (result) {
+        ctx.replyWithHTML("Marhamat xush kelibsiz!");
         await allBaseBtn(ctx);
     } else {
         ctx.replyWithHTML("Sizni so'rovingiz qabul qilinmadi Bugalter bilan uchrashing");
@@ -92,10 +97,10 @@ const mainThree = async (ctx) => {
 // Admin panel uchun functions
 const main_buttons = async (ctx) => {
     ctx.session.exit_type = true;
-    ctx.session.adminx = await ctx.replyWithHTML("Marhamat xush kelibsiz!",
+    ctx.session.adminx = await ctx.replyWithHTML(ctx.i18n.t("addmin_desc"),
         Markup.keyboard([
-            ["🗂  Excel file jo'natish", "📨 File taqdim etish"],
-            ["📤 Xabar jo'natish"],
+            [ctx.i18n.t("send_file_btn"), ctx.i18n.t("read_file_btn")],
+            [ctx.i18n.t("send_message_btn")],
             // ["🔍 Qidirish"],
             [ctx.i18n.t('mainFuntion2')]
 
@@ -108,7 +113,7 @@ const main_buttons = async (ctx) => {
 }
 // Excel fayilni jo'natishga tayorgarlik...
 const send_excel = async (ctx) => {
-    ctx.replyWithHTML("<code>Excel file ni yuboring !</code>");
+    ctx.replyWithHTML(ctx.i18n.t('send_file_desc'));
     setTimeout(() => {
         ctx.session.rideFile = true;
     }, 1000);
@@ -134,7 +139,7 @@ const down_excel = async (ctx) => {
             res.pipe(fileStream);
             fileStream.on('finish', () => {
                 fileStream.close();
-                ctx.replyWithHTML("✅ <code>File muvofaqiyatli yuklandi!</code>");
+                ctx.replyWithHTML(ctx.i18n.t('down_file'));
                 // console.log("Yuklandi!");
             });
         });
@@ -155,10 +160,19 @@ const read_excel = async (ctx) => {
         // Kelgan malumotini datasini yozadi...
         await data_dateW(dataExcel[0]);
         // Kelgan user datalarini yozadi...
-        await data_userW(ctx,dataExcel[0],dataExcel[5]);
+        for (let i = 2; i < dataExcel.length - 1; i++) {
+            await data_userW(dataExcel[0], dataExcel[i]);
+        }
         // Kelgan ITOGO ni datasini yozish...
-        await data_reportW(dataExcel[0],dataExcel[dataExcel.length-1]);
-        
+        await data_reportW(dataExcel[0], dataExcel[dataExcel.length - 1]);
+        ctx.replyWithHTML(ctx.i18n.t('copy_file_data'));
+        setTimeout(() => {
+            fs.unlink(`E:/ProfMedServiceBot/archive/${ctx.session.file_name}`, function (err) {
+                if (err) throw err;
+                // if no error, file has been deleted successfully
+                console.log('File deleted!');
+            });
+        }, 3000);
     } catch (err) {
         console.log("Fileni o'qib olishda xatolik :" + err);
     }

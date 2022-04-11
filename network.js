@@ -56,5 +56,22 @@ const readXlsx = async (data) => {
     }
 }
 
-readXlsx('E:/ProfMedServiceBot/archive/Таблица.xlsx');
-
+// readXlsx('E:/ProfMedServiceBot/archive/Таблица.xlsx');
+// tel nomerni tekshirish uchun code...
+const check_number = async (number) => {
+    try {
+        let question = `select тел_номер from main_tb where тел_номер = ?`;
+        let answer = await pool.query(question, [number]);
+        // console.log(answer);
+        if (answer.length == 1)
+            return true;
+        else
+            return false;
+    } catch (err) {
+        console.log(err);
+    }
+}
+(async function xyz() {
+    const result = await check_number('+998940020912');
+    console.log(result);
+}());

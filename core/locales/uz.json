@@ -14,5 +14,12 @@
     "mainFuntion2":"🇺🇿 Тилни ўзгартиш",
     "mainFuntion3":"Марҳамат хизматларга хуш келибсиз",
     "ourdata": "✅ {clinic_name} \n\n 📍 <b>Манзил</b> :{clinic_adress} \n\n ☎️ <b>Телфон рақам</b>:\n{clinic_numbers} \n\n⏱ <b>Иш вақтлари</b> :{clinic_times}",
-    "profil": "🔑<b> Сизнинг шахсий рақамингиз ID :</b> {id}\n\n 👤<b> И.Ф.О :</b> {first_n} {last_n} {nick_n}\n\n ⏳<b> Туғулган сана :</b> {borth_date} \n\n🧰<b> Мутахасислиги :</b> {specialist}\n\n📌<b> Иш жойи :</b> {place}\n📞<b> Телефон рақам :</b> {tel_nuber}\n\n 💳<b> Карта рақам :</b> {card_number}"
+    "profil": "🔑<b> Сизнинг шахсий рақамингиз ID :</b> {id}\n\n 👤<b> И.Ф.О :</b> {first_n} {last_n} {nick_n}\n\n ⏳<b> Туғулган сана :</b> {borth_date} \n\n🧰<b> Мутахасислиги :</b> {specialist}\n\n📌<b> Иш жойи :</b> {place}\n📞<b> Телефон рақам :</b> {tel_nuber}\n\n 💳<b> Карта рақам :</b> {card_number}",
+    "addmin_desc": "Марҳамат хуш келибсиз!",
+    "send_file_desc":"<code>Excel файлни юборинг !</code>",
+    "send_file_btn": "🗂  Excel файлни жўнатиш",
+    "read_file_btn": "📨 File тақдим этиш",
+    "send_message_btn": "📤 Хабар жўнатиш",
+    "down_file": "✅ <code>Файлни мувофақиятли юкланди !</code>",
+    "copy_file_data": "✅ <code>Малумотлар муофиқиятли кўчирилди !</code>"
 }

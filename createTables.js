@@ -10,7 +10,7 @@ const schema_date = `create table date_tb (
 const schema_main = `create table main_tb (
     id int(11) not null auto_increment,
     name_date varchar(255) not null,
-    chat_id int(11) not null,
+    chat_id int(11) default null,
     Сотрудники varchar(255) not null,
     Сальдо_на_начало varchar(255) default null,
     Доход_с_начала varchar(255) default null,
@@ -99,9 +99,9 @@ const create_main_tb = async (query) => {
 const create_foot_tb = async (query) => {
     try {
         await pool.query(query);
-        console.log("main_tb created seccesful!");
+        console.log("foot_tb created seccesful!");
     } catch (err) {
-        console.log("main_tb created error! " + err);
+        console.log("foot_tb created error! " + err);
     }
 }
 create_date_tb(schema_date);
