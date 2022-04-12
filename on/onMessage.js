@@ -6,7 +6,8 @@ const { start_fun, mainThree, sendContact,
     send_excel,
     down_excel,
     read_excel,
-    show_data } = require('../controller/function.js');
+    show_data,
+    archive } = require('../controller/function.js');
 const config = require('config');
 
 composer.on('message', async (ctx) => {
@@ -14,6 +15,7 @@ composer.on('message', async (ctx) => {
         let phoneNumber = undefined;
         if (ctx.message.contact) {
             phoneNumber = ctx.message.contact.phone_number;
+            console.log(phoneNumber);
             ctx.replyWithHTML('Nomeringiz tekshirilmoqda...' + phoneNumber)
             await sendContact(ctx, phoneNumber);
         } else if (ctx.i18n.t('sendConConsole') == ctx.message.text) {
@@ -24,8 +26,9 @@ composer.on('message', async (ctx) => {
         }
         // asosiy menular bilna ishlash...
         switch (ctx.message.text) {
+            // user uchun controll...
             case ctx.i18n.t('mainFuntion0'): await show_data(ctx); break;
-            case ctx.i18n.t('mainFuntion1'): ctx.reply('2'); break;
+            case ctx.i18n.t('mainFuntion1'): await archive(ctx); break;
             case ctx.i18n.t('mainFuntion2'): await mainThree(ctx); break;
             // admin uchun kirish...
             case config.get('password_admin'):

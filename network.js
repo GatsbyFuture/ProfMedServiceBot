@@ -102,7 +102,23 @@ const need_data = async (id) => {
         console.log("Dateni tortishda xatolik :" + err);
     }
 }
+// arxivi datalarni tortish...
+const archive_data = async () => {
+    try {
+        let max_text = `select date_month from date_tb limit ?,3`
+        let amount_text = `select count(id) as amount from date_tb`;
+        let min_text = `select date_month from date_tb`;
+        let amount = await pool.query(amount_text);
+        if (amount[0][0].amount < 3) {
+            return await pool.query(min_text);
+        } else {
+            return await pool.query(max_text, [amount[0][0].amount - 4]);
+        }
+    } catch (err) {
+        console.log("arxivni tortishda xatolik: " + err);
+    }
+}
 (async function xyz() {
-    const result = await need_data(1563800631);
-    console.log(result[0]);
+    const result = await archive_data();
+    console.log(result);
 }());

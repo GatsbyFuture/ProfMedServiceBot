@@ -14,7 +14,8 @@ const {
 const {
     check_number,
     need_data,
-    sleep_status
+    sleep_status,
+    archive_data
 } = require('../model/crudData');
 // start bosganda ishga tushadigan function...
 const start_fun = async (ctx) => {
@@ -76,6 +77,23 @@ const allBaseBtn = async (ctx) => {
             [ctx.i18n.t('mainFuntion0'), ctx.i18n.t('mainFuntion1')],
             [ctx.i18n.t('mainFuntion2')]
         ])
+            .oneTime()
+            .resize()
+            .extra()
+    )
+        .then();
+}
+// arxivni ochish uchun function...
+const archive = async (ctx) => {
+    let create_btn = [];
+    let all_btn = await archive_data();
+    for (let i = 0; i < all_btn[0].length; i++) {
+        create_btn.push([all_btn[0][i].date_month]);
+    }
+    ctx.session.allButton = await ctx.replyWithHTML("Marhamat arxive xizmati!",
+        Markup.keyboard(
+            create_btn
+        )
             .oneTime()
             .resize()
             .extra()
@@ -186,26 +204,32 @@ const read_excel = async (ctx) => {
 const show_data = async (ctx) => {
     try {
         let data = await need_data(ctx.message.from.id);
-        ctx.replyWithHTML(ctx.i18n.t("show_user")
-            .replace('{n1}', data[0]["name_date"])
-            .replace('{n2}', data[0]["Сотрудники"] == null ? "❌" : data[0]["Сотрудники"])
-            .replace('{n3}', data[0]["Кол_во_выходов"] == null ? "❌" : data[0]["Кол_во_выходов"])
-            .replace('{n4}', data[0]["Кол_во_отраб"] == null ? "❌" : data[0]["Кол_во_отраб"])
-            .replace('{n5}', data[0]["Кол_во_Дежурства_день"] == null ? "❌" : data[0]["Кол_во_Дежурства_день"])
-            .replace('{n6}', data[0]["Кол_о_Дежурства_ночь"] == null ? "❌" : data[0]["Кол_о_Дежурства_ночь"])
-            .replace('{n7}', data[0]["Оклад"] == null ? "❌" : data[0]["Оклад"])
-            .replace('{n8}', data[0]["За_вредность"] == null ? "❌" : data[0]["За_вредность"])
-            .replace('{n9}', data[0]["Дежурства_день"] == null ? "❌" : data[0]["Дежурства_день"])
-            .replace('{n10}', data[0]["Дежурства_ночь"] == null ? "❌" : data[0]["Дежурства_ночь"])
-            .replace('{n11}', data[0]["Отпускные"] == null ? "❌" : data[0]["Отпускные"])
-            .replace('{n12}', data[0]["Доплата"] == null ? "❌" : data[0]["Доплата"])
-            .replace('{n13}', data[0]["Премия"] == null ? "❌" : data[0]["Премия"])
-            .replace('{n14}', data[0]["Всего_ачислено"] == null ? "❌" : data[0]["Всего_ачислено"])
-            .replace('{n15}', data[0]["Подоходный_налог"] == null ? "❌" : data[0]["Подоходный_налог"])
-            .replace('{n16}', data[0]["Займ"] == null ? "❌" : data[0]["Займ"])
-            .replace('{n17}', data[0]["Всего_удержано"] == null ? "❌" : data[0]["Всего_удержано"])
-            .replace('{n18}', data[0]["creation_date"].toString())
-        );
+        if (data.length == 1) {
+            ctx.replyWithHTML(ctx.i18n.t("show_user")
+                .replace('{n1}', data[0]["name_date"])
+                .replace('{n2}', data[0]["Сотрудники"] == null ? "❌" : data[0]["Сотрудники"])
+                .replace('{n3}', data[0]["Кол_во_выходов"] == null ? "❌" : data[0]["Кол_во_выходов"])
+                .replace('{n4}', data[0]["Кол_во_отраб"] == null ? "❌" : data[0]["Кол_во_отраб"])
+                .replace('{n5}', data[0]["Кол_во_Дежурства_день"] == null ? "❌" : data[0]["Кол_во_Дежурства_день"])
+                .replace('{n6}', data[0]["Кол_о_Дежурства_ночь"] == null ? "❌" : data[0]["Кол_о_Дежурства_ночь"])
+                .replace('{n7}', data[0]["Оклад"] == null ? "❌" : data[0]["Оклад"])
+                .replace('{n8}', data[0]["За_вредность"] == null ? "❌" : data[0]["За_вредность"])
+                .replace('{n9}', data[0]["Дежурства_день"] == null ? "❌" : data[0]["Дежурства_день"])
+                .replace('{n10}', data[0]["Дежурства_ночь"] == null ? "❌" : data[0]["Дежурства_ночь"])
+                .replace('{n11}', data[0]["Отпускные"] == null ? "❌" : data[0]["Отпускные"])
+                .replace('{n12}', data[0]["Доплата"] == null ? "❌" : data[0]["Доплата"])
+                .replace('{n13}', data[0]["Премия"] == null ? "❌" : data[0]["Премия"])
+                .replace('{n14}', data[0]["Всего_ачислено"] == null ? "❌" : data[0]["Всего_ачислено"])
+                .replace('{n15}', data[0]["Подоходный_налог"] == null ? "❌" : data[0]["Подоходный_налог"])
+                .replace('{n16}', data[0]["Займ"] == null ? "❌" : data[0]["Займ"])
+                .replace('{n17}', data[0]["Всего_удержано"] == null ? "❌" : data[0]["Всего_удержано"])
+                .replace('{n18}', data[0]["creation_date"].toString())
+            );
+        } else {
+            await start_fun(ctx);
+            ctx.deleteMessage(ctx.session.allButton);
+            ctx.session.checkUser = false;
+        }
     } catch (err) {
         console.log("So'ngi oylik xisobotni chiqarishda xatolik :" + err);
     }
@@ -217,6 +241,8 @@ module.exports = {
     sendContact,
     allBaseBtn,
     mainThree,
+    // arxivni ko'rish uchun...
+    archive,
     // admin panel ...
     main_buttons,
     send_excel,

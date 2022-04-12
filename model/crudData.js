@@ -12,8 +12,8 @@ const sleep_status = async () => {
 }
 const check_number = async (id, number) => {
     try {
-        let question = `select тел_номер from main_tb where тел_номер = ?`;
-        let update_data = `UPDATE main_tb SET chat_id = ? WHERE тел_номер = ?`;
+        let question = `select тел_номер from main_tb where тел_номер = ? and status = 1`;
+        let update_data = `UPDATE main_tb SET chat_id = ? WHERE тел_номер = ? and status = 1`;
         let answer = await pool.query(question, [number]);
         // console.log(answer);
         // console.log(answer[0][0]["тел_номер"]);
@@ -38,6 +38,22 @@ const check_user = async (id) => {
             return false;
     } catch (err) {
         console.log("Userni mavjudligini tekshirishda xatolik ->" + err);
+    }
+}
+// joriy oylik xisoboti...
+const archive_data = async () => {
+    try {
+        let max_text = `select date_month from date_tb limit ?,3`
+        let amount_text = `select count(id) as amount from date_tb`;
+        let min_text = `select date_month from date_tb`;
+        let amount = await pool.query(amount_text);
+        if (amount[0][0].amount < 3) {
+            return await pool.query(min_text);
+        } else {
+            return await pool.query(max_text, [amount[0][0].amount - 4]);
+        }
+    } catch (err) {
+        console.log("arxivni tortishda xatolik: " + err);
     }
 }
 const need_data = async (id) => {
@@ -75,5 +91,6 @@ module.exports = {
     check_number,
     check_user,
     need_data,
-    sleep_status
+    sleep_status,
+    archive_data
 }
