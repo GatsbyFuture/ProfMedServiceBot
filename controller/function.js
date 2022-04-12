@@ -13,7 +13,8 @@ const {
 } = require('../model/packData');
 const {
     check_number,
-    need_data
+    need_data,
+    sleep_status
 } = require('../model/crudData');
 // start bosganda ishga tushadigan function...
 const start_fun = async (ctx) => {
@@ -62,6 +63,7 @@ const sendContact = async (ctx, phoneNumber) => {
     if (result) {
         ctx.replyWithHTML("Marhamat xush kelibsiz!");
         await allBaseBtn(ctx);
+        ctx.session.checkUser = true;
     } else {
         ctx.replyWithHTML("Sizni so'rovingiz qabul qilinmadi Bugalter bilan uchrashing");
     }
@@ -152,6 +154,8 @@ const down_excel = async (ctx) => {
 // Excelni fileni malumotlarini o'tib olish...
 const read_excel = async (ctx) => {
     try {
+        // file yangi yuklanayotganda eski bazadagi malumotlarini o'chirib qo'yadi..
+        await sleep_status();
         const workbook = XLSX.readFile(`E:/ProfMedServiceBot/archive/${ctx.session.file_name}`);
         const workbookSheets = workbook.SheetNames;
         // console.log(workbookSheets);

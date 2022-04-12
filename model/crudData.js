@@ -1,6 +1,15 @@
 // bu faylda faqat crud ammallari bajariladi...
 const { pool } = require('../db/connect_db');
 // bazadan userni nomeri bo'yicha tekshirish va bor bo'lsa unga chat_id beradi...
+const sleep_status = async () => {
+    let date_query = `UPDATE date_tb SET status=0`;
+    let main_query = `UPDATE main_tb SET status=0`;
+    let foot_query = `UPDATE foot_tb SET status=0`;
+    await pool.query(date_query);
+    await pool.query(main_query);
+    await pool.query(foot_query);
+    console.log("Datalarni statusini 0 ga tushurish...");
+}
 const check_number = async (id, number) => {
     try {
         let question = `select тел_номер from main_tb where тел_номер = ?`;
@@ -20,7 +29,7 @@ const check_number = async (id, number) => {
 }
 const check_user = async (id) => {
     try {
-        let question = `select chat_id from main_tb where chat_id = ?`;
+        let question = `select chat_id from main_tb where chat_id = ? and status = 1`;
         let answer = await pool.query(question, [id]);
         // console.log(answer)
         if (answer[0].length == 1)
@@ -65,5 +74,6 @@ const need_data = async (id) => {
 module.exports = {
     check_number,
     check_user,
-    need_data
+    need_data,
+    sleep_status
 }

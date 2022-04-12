@@ -32,9 +32,9 @@ composer.on('message', async (ctx) => {
                 await main_buttons(ctx);
                 ctx.session.admin = true; break;
             case "exit@0020912": ctx.session.admin = false; break;
-            case "🗂  Excel file jo'natish": await send_excel(ctx); break;
-            case "📨 File taqdim etish": await read_excel(ctx); break;
-            case "📤 Xabar jo'natish": ctx.reply('14'); break;
+            case ctx.i18n.t('send_file_btn'): await send_excel(ctx); break;
+            case ctx.i18n.t('read_file_btn'): await read_excel(ctx); break;
+            case ctx.i18n.t('send_message_btn'): ctx.reply('14'); break;
             // case "🔍 Qidirish": ctx.reply('13');
             default: break;
         }
