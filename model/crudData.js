@@ -31,15 +31,39 @@ const check_user = async (id) => {
         console.log("Userni mavjudligini tekshirishda xatolik ->" + err);
     }
 }
-const check_b = async (number) => {
+const need_data = async (id) => {
     try {
-
+        let question = `select
+        name_date,
+        Сотрудники,
+        Кол_во_выходов,
+        Кол_во_отраб,
+        Кол_во_Дежурства_день,
+        Кол_о_Дежурства_ночь,
+        Оклад,
+        За_вредность,
+        Дежурства_день,
+        Дежурства_ночь,
+        Отпускные,
+        Доплата,
+        Премия,
+        Всего_ачислено,
+        Подоходный_налог,
+        Займ,
+        Всего_удержано,
+        creation_date
+        from
+        main_tb
+        where status = 1 and chat_id = ?`;
+        let answer = await pool.query(question, [id]);
+        return answer[0];
     } catch (err) {
-        console.log();
+        console.log("Dateni tortishda xatolik :" + err);
     }
 }
 
 module.exports = {
     check_number,
-    check_user
+    check_user,
+    need_data
 }

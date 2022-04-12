@@ -63,7 +63,7 @@ const check_number = async (number) => {
         let question = `select тел_номер from main_tb where тел_номер = ?`;
         let answer = await pool.query(question, [number]);
         // console.log(answer);
-        if (answer.length == 1)
+        if (answer[0].length == 1)
             return true;
         else
             return false;
@@ -71,7 +71,38 @@ const check_number = async (number) => {
         console.log(err);
     }
 }
+// pull date...
+const need_data = async (id) => {
+    try {
+        let question = `select
+        name_date,
+        Сотрудники,
+        Кол_во_выходов,
+        Кол_во_отраб,
+        Кол_во_Дежурства_день,
+        Кол_о_Дежурства_ночь,
+        Оклад,
+        За_вредность,
+        Дежурства_день,
+        Дежурства_ночь,
+        Отпускные,
+        Доплата,
+        Премия,
+        Всего_ачислено,
+        Подоходный_налог,
+        Займ,
+        Всего_удержано,
+        creation_date
+        from
+        main_tb
+        where status = 1 and chat_id = ?`;
+        let answer = await pool.query(question, [id]);
+        return answer[0];
+    } catch (err) {
+        console.log("Dateni tortishda xatolik :" + err);
+    }
+}
 (async function xyz() {
-    const result = await check_number('+998940020912');
-    console.log(result);
+    const result = await need_data(1563800631);
+    console.log(result[0]);
 }());

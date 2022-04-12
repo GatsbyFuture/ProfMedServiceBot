@@ -16,10 +16,11 @@
     "ourdata": "✅ {clinic_name} \n\n 📍 <b>Manzil</b> :{clinic_adress} \n\n ☎️ <b>Telfon raqam</b>:\n{clinic_numbers} \n\n⏱ <b>Ish vaqtlari</b> :{clinic_times}",
     "profil": "🔑<b> Sizning shaxsiy raqamingiz ID :</b> {id}\n\n👤<b> I.F.O :</b> {first_n} {last_n} {nick_n}\n\n ⏳<b> Tug'ulgan sana :</b> {borth_date} \n\n🧰<b> Mutaxasisligi :</b> {specialist}\n\n📌<b> Ish joyi :</b> {place}\n📞<b> Telefon raqam :</b> {tel_nuber}\n\n 💳<b> Karta raqam :</b> {card_number}",
     "addmin_desc": "Marhamat xush kelibsiz!",
-    "send_file_desc":"<code>Excel file ni yuboring !</code>",
+    "send_file_desc": "<code>Excel file ni yuboring !</code>",
     "send_file_btn": "🗂  Excel file jo'natish",
     "read_file_btn": "📨 File taqdim etish",
     "send_message_btn": "📤 Xabar jo'natish",
     "down_file": "✅ <code>File muvofaqiyatli yuklandi!</code>",
-    "copy_file_data": "✅ <code>Malumotlar muofiqiyatli ko'chirildi !</code>"
+    "copy_file_data": "✅ <code>Malumotlar muofiqiyatli ko'chirildi !</code>",
+    "show_user": "📅 <b>Sana</b> :{n1}\n\n👤 <b>Xodim</b> :{n2}\n🧮 <b>Chiqish soni</b> (kunlarda) :{n3}\n📈 <b>Ish soni soat</b> (oyiga) :{n4}\n🧮 <b>Ish kuni soni</b> :{n5}\n*️⃣ <b>Navbatdagi tunlar soni</b> :{n6}\n💵 <b>Ish haqi</b> :{n7}\n🪓 <b>Zarar uchun</b> :{n8}\n☀️ <b>Kungi smena</b> :{n9}\n🌑 <b>Tungi smena</b> :{n10}\n💤 <b>Dam olish</b> :{n11}\n💸 <b>Qo'shimcha to'lov</b> :{n12}\n💎 <b>Mukofot</b> :{n13}\n💰 <b>Jami hisoblangan</b> :{n14}\n⚖️ <b>Daromad solig'i</b> :{n15}\n⛔️ <b>Qarz</b> :{n16}\n💶 <b>Jami ushlab turilgan</b> :{n17}\n\n⌛️ <b>Joriy qilingan vaqt</b>: {n18}"
 }

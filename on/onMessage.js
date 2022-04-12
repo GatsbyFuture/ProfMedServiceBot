@@ -5,7 +5,8 @@ const { start_fun, mainThree, sendContact,
     main_buttons,
     send_excel,
     down_excel,
-    read_excel } = require('../controller/function.js');
+    read_excel,
+    show_data } = require('../controller/function.js');
 const config = require('config');
 
 composer.on('message', async (ctx) => {
@@ -23,7 +24,7 @@ composer.on('message', async (ctx) => {
         }
         // asosiy menular bilna ishlash...
         switch (ctx.message.text) {
-            case ctx.i18n.t('mainFuntion0'): ctx.reply('1'); break;
+            case ctx.i18n.t('mainFuntion0'): await show_data(ctx); break;
             case ctx.i18n.t('mainFuntion1'): ctx.reply('2'); break;
             case ctx.i18n.t('mainFuntion2'): await mainThree(ctx); break;
             // admin uchun kirish...

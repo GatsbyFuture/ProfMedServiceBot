@@ -12,7 +12,8 @@ const {
     data_reportW
 } = require('../model/packData');
 const {
-    check_number
+    check_number,
+    need_data
 } = require('../model/crudData');
 // start bosganda ishga tushadigan function...
 const start_fun = async (ctx) => {
@@ -156,7 +157,7 @@ const read_excel = async (ctx) => {
         // console.log(workbookSheets);
         const sheet = workbookSheets[0];
         const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
-        console.log(dataExcel);
+        // console.log(dataExcel);
         // Kelgan malumotini datasini yozadi...
         await data_dateW(dataExcel[0]);
         // Kelgan user datalarini yozadi...
@@ -177,6 +178,34 @@ const read_excel = async (ctx) => {
         console.log("Fileni o'qib olishda xatolik :" + err);
     }
 }
+// oylik xisobotni userga chiqarib berish uchun...
+const show_data = async (ctx) => {
+    try {
+        let data = await need_data(ctx.message.from.id);
+        ctx.replyWithHTML(ctx.i18n.t("show_user")
+            .replace('{n1}', data[0]["name_date"])
+            .replace('{n2}', data[0]["Сотрудники"] == null ? "❌" : data[0]["Сотрудники"])
+            .replace('{n3}', data[0]["Кол_во_выходов"] == null ? "❌" : data[0]["Кол_во_выходов"])
+            .replace('{n4}', data[0]["Кол_во_отраб"] == null ? "❌" : data[0]["Кол_во_отраб"])
+            .replace('{n5}', data[0]["Кол_во_Дежурства_день"] == null ? "❌" : data[0]["Кол_во_Дежурства_день"])
+            .replace('{n6}', data[0]["Кол_о_Дежурства_ночь"] == null ? "❌" : data[0]["Кол_о_Дежурства_ночь"])
+            .replace('{n7}', data[0]["Оклад"] == null ? "❌" : data[0]["Оклад"])
+            .replace('{n8}', data[0]["За_вредность"] == null ? "❌" : data[0]["За_вредность"])
+            .replace('{n9}', data[0]["Дежурства_день"] == null ? "❌" : data[0]["Дежурства_день"])
+            .replace('{n10}', data[0]["Дежурства_ночь"] == null ? "❌" : data[0]["Дежурства_ночь"])
+            .replace('{n11}', data[0]["Отпускные"] == null ? "❌" : data[0]["Отпускные"])
+            .replace('{n12}', data[0]["Доплата"] == null ? "❌" : data[0]["Доплата"])
+            .replace('{n13}', data[0]["Премия"] == null ? "❌" : data[0]["Премия"])
+            .replace('{n14}', data[0]["Всего_ачислено"] == null ? "❌" : data[0]["Всего_ачислено"])
+            .replace('{n15}', data[0]["Подоходный_налог"] == null ? "❌" : data[0]["Подоходный_налог"])
+            .replace('{n16}', data[0]["Займ"] == null ? "❌" : data[0]["Займ"])
+            .replace('{n17}', data[0]["Всего_удержано"] == null ? "❌" : data[0]["Всего_удержано"])
+            .replace('{n18}', data[0]["creation_date"].toString())
+        );
+    } catch (err) {
+        console.log("So'ngi oylik xisobotni chiqarishda xatolik :" + err);
+    }
+}
 module.exports = {
     start_fun,
     youWantConnect,
@@ -188,5 +217,6 @@ module.exports = {
     main_buttons,
     send_excel,
     down_excel,
-    read_excel
+    read_excel,
+    show_data
 }

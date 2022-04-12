@@ -3,6 +3,7 @@ const { pool } = require('./db/connect_db');
 const schema_date = `create table date_tb (
     id int(11) not null auto_increment,
     date_month varchar(255) not null,
+    status int default 1,
     creation_date datetime default current_timestamp,
     PRIMARY KEY (id),
     KEY id (id)
@@ -39,6 +40,7 @@ const schema_main = `create table main_tb (
     Касса_Зарплата varchar(255) default null,
     К_выдаче varchar(255) default null,
     тел_номер varchar(255) default null,
+    status int default 1,
     creation_date datetime default current_timestamp,
     PRIMARY KEY (id),
     KEY id (id),
@@ -75,6 +77,7 @@ const schema_foot = `create table foot_tb (
     Пластиковые_карточки varchar(255) default null,
     Касса_Зарплата varchar(255) default null,
     К_выдаче varchar(255) default null,
+    status int default 1,
     creation_date datetime default current_timestamp,
     PRIMARY KEY (id),
     KEY id (id),
