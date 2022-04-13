@@ -105,7 +105,28 @@ const need_data = async (id) => {
 // arxivi datalarni tortish...
 const archive_data = async () => {
     try {
-        let max_text = `select date_month from date_tb limit ?,3`
+        let max_text = `select 
+        name_date,
+        Сотрудники,
+        Кол_во_выходов,
+        Кол_во_отраб,
+        Кол_во_Дежурства_день,
+        Кол_о_Дежурства_ночь,
+        Оклад,
+        За_вредность,
+        Дежурства_день,
+        Дежурства_ночь,
+        Отпускные,
+        Доплата,
+        Премия,
+        Всего_ачислено,
+        Подоходный_налог,
+        Займ,
+        Всего_удержано,
+        creation_date
+        from
+        main_tb 
+        where chat_id = 1563800631 limit ?,3;`
         let amount_text = `select count(id) as amount from date_tb`;
         let min_text = `select date_month from date_tb`;
         let amount = await pool.query(amount_text);
@@ -118,7 +139,29 @@ const archive_data = async () => {
         console.log("arxivni tortishda xatolik: " + err);
     }
 }
-(async function xyz() {
-    const result = await archive_data();
-    console.log(result);
-}());
+// (async function xyz() {
+//     const result = await archive_data();
+//     console.log(result[0]);
+// }());
+// katologda file bormi? yoqmi tekshiramiz...
+// fs.readdir('./archive/', (err, files) => {
+//     if (err)
+//         console.log("File yoq!");
+//     else
+//         console.log("File mavjud: " + files);
+
+// });
+// const { promises: fs } = require('fs');
+// const dir = './archive/';
+
+// const getNumFiles = async (dir) => {
+//   const files = await fs.readdir(dir)
+//   console.log(files.length)
+// }
+// getNumFiles(dir)
+const fs = require('fs');
+const dir = './archive/';
+
+fs.readdir(dir, (err, files, ctx) => {
+    console.log(typeof files.length);
+});

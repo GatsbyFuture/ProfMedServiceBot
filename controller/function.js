@@ -83,22 +83,29 @@ const allBaseBtn = async (ctx) => {
     )
         .then();
 }
-// arxivni ochish uchun function...
-const archive = async (ctx) => {
-    let create_btn = [];
-    let all_btn = await archive_data();
-    for (let i = 0; i < all_btn[0].length; i++) {
-        create_btn.push([all_btn[0][i].date_month]);
+// arxivdan malumotlarni tortib kelish va taqdim etish...
+const show_archive = async (ctx) => {
+    try {
+        ctx.session.count = 0;
+        ctx.session.show_board = await archive_data(ctx.message.from.id);
+        // console.log(ctx.session.show_board)
+        const show_board0 = await show_data_board(ctx, ctx.session.show_board[0][ctx.session.count]);
+        await ctx.telegram
+            .sendMessage(ctx.message.from.id,
+                show_board0, {
+                reply_markup: Markup.inlineKeyboard([
+                    [
+                        Markup.callbackButton('⬅️', 'backBoard'),
+                        Markup.callbackButton('❌', 'exitBoard'),
+                        Markup.callbackButton('➡️', 'nextBoard'),
+                    ],
+                ])
+            })
+            .then();
+        ctx.deleteMessage(ctx.session.allButton.message_id);
+    } catch (err) {
+        console.log("Arxivning boardini chiqarishda xatolik: " + err);
     }
-    ctx.session.allButton = await ctx.replyWithHTML("Marhamat arxive xizmati!",
-        Markup.keyboard(
-            create_btn
-        )
-            .oneTime()
-            .resize()
-            .extra()
-    )
-        .then();
 }
 // want to change language...
 const mainThree = async (ctx) => {
@@ -200,6 +207,32 @@ const read_excel = async (ctx) => {
         console.log("Fileni o'qib olishda xatolik :" + err);
     }
 }
+// arxive datani chiqarish...
+const show_data_board = async (ctx, data) => {
+    try {
+        return ctx.i18n.t("show_user")
+            .replace('{n1}', data["name_date"])
+            .replace('{n2}', data["Сотрудники"] == null ? "❌" : data["Сотрудники"])
+            .replace('{n3}', data["Кол_во_выходов"] == null ? "❌" : data["Кол_во_выходов"])
+            .replace('{n4}', data["Кол_во_отраб"] == null ? "❌" : data["Кол_во_отраб"])
+            .replace('{n5}', data["Кол_во_Дежурства_день"] == null ? "❌" : data["Кол_во_Дежурства_день"])
+            .replace('{n6}', data["Кол_о_Дежурства_ночь"] == null ? "❌" : data["Кол_о_Дежурства_ночь"])
+            .replace('{n7}', data["Оклад"] == null ? "❌" : data["Оклад"])
+            .replace('{n8}', data["За_вредность"] == null ? "❌" : data["За_вредность"])
+            .replace('{n9}', data["Дежурства_день"] == null ? "❌" : data["Дежурства_день"])
+            .replace('{n10}', data["Дежурства_ночь"] == null ? "❌" : data["Дежурства_ночь"])
+            .replace('{n11}', data["Отпускные"] == null ? "❌" : data["Отпускные"])
+            .replace('{n12}', data["Доплата"] == null ? "❌" : data["Доплата"])
+            .replace('{n13}', data["Премия"] == null ? "❌" : data["Премия"])
+            .replace('{n14}', data["Всего_ачислено"] == null ? "❌" : data["Всего_ачислено"])
+            .replace('{n15}', data["Подоходный_налог"] == null ? "❌" : data["Подоходный_налог"])
+            .replace('{n16}', data["Займ"] == null ? "❌" : data["Займ"])
+            .replace('{n17}', data["Всего_удержано"] == null ? "❌" : data["Всего_удержано"])
+            .replace('{n18}', data["creation_date"].toString())
+    } catch (err) {
+        console.log("arxivni datasini to'g'irlab chiqarishda xatolik: " + err);
+    }
+}
 // oylik xisobotni userga chiqarib berish uchun...
 const show_data = async (ctx) => {
     try {
@@ -242,11 +275,12 @@ module.exports = {
     allBaseBtn,
     mainThree,
     // arxivni ko'rish uchun...
-    archive,
+    show_data_board,
     // admin panel ...
     main_buttons,
     send_excel,
     down_excel,
     read_excel,
-    show_data
+    show_data,
+    show_archive
 }

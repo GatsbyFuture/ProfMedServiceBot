@@ -41,16 +41,58 @@ const check_user = async (id) => {
     }
 }
 // joriy oylik xisoboti...
-const archive_data = async () => {
+const archive_data = async (id) => {
     try {
-        let max_text = `select date_month from date_tb limit ?,3`
+        let max_text = `select 
+        name_date,
+        Сотрудники,
+        Кол_во_выходов,
+        Кол_во_отраб,
+        Кол_во_Дежурства_день,
+        Кол_о_Дежурства_ночь,
+        Оклад,
+        За_вредность,
+        Дежурства_день,
+        Дежурства_ночь,
+        Отпускные,
+        Доплата,
+        Премия,
+        Всего_ачислено,
+        Подоходный_налог,
+        Займ,
+        Всего_удержано,
+        creation_date
+        from
+        main_tb 
+        where chat_id = ? limit ?,3;`;
+        let min_text = `select 
+        name_date,
+        Сотрудники,
+        Кол_во_выходов,
+        Кол_во_отраб,
+        Кол_во_Дежурства_день,
+        Кол_о_Дежурства_ночь,
+        Оклад,
+        За_вредность,
+        Дежурства_день,
+        Дежурства_ночь,
+        Отпускные,
+        Доплата,
+        Премия,
+        Всего_ачислено,
+        Подоходный_налог,
+        Займ,
+        Всего_удержано,
+        creation_date 
+        from 
+        main_tb
+        where id = ?`;
         let amount_text = `select count(id) as amount from date_tb`;
-        let min_text = `select date_month from date_tb`;
         let amount = await pool.query(amount_text);
         if (amount[0][0].amount < 3) {
-            return await pool.query(min_text);
+            return await pool.query(min_text, [id]);
         } else {
-            return await pool.query(max_text, [amount[0][0].amount - 4]);
+            return await pool.query(max_text, [id, amount[0][0].amount - 4]);
         }
     } catch (err) {
         console.log("arxivni tortishda xatolik: " + err);

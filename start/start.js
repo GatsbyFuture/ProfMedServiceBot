@@ -15,6 +15,7 @@ composer.start(async (ctx) => {
         else
             ctx.session.checkUser = false;
         await start_fun(ctx);
+        // boshlang'ich default holatlar uchun...
         ctx.session.rideFile = undefined;
     } catch (err) {
         console.log(err);

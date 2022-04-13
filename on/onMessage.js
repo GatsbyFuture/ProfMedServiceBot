@@ -7,7 +7,8 @@ const { start_fun, mainThree, sendContact,
     down_excel,
     read_excel,
     show_data,
-    archive } = require('../controller/function.js');
+    show_archive
+} = require('../controller/function.js');
 const config = require('config');
 
 composer.on('message', async (ctx) => {
@@ -15,7 +16,7 @@ composer.on('message', async (ctx) => {
         let phoneNumber = undefined;
         if (ctx.message.contact) {
             phoneNumber = ctx.message.contact.phone_number;
-            console.log(phoneNumber);
+            // console.log(phoneNumber);
             ctx.replyWithHTML('Nomeringiz tekshirilmoqda...' + phoneNumber)
             await sendContact(ctx, phoneNumber);
         } else if (ctx.i18n.t('sendConConsole') == ctx.message.text) {
@@ -28,7 +29,7 @@ composer.on('message', async (ctx) => {
         switch (ctx.message.text) {
             // user uchun controll...
             case ctx.i18n.t('mainFuntion0'): await show_data(ctx); break;
-            case ctx.i18n.t('mainFuntion1'): await archive(ctx); break;
+            case ctx.i18n.t('mainFuntion1'): await show_archive(ctx); break;
             case ctx.i18n.t('mainFuntion2'): await mainThree(ctx); break;
             // admin uchun kirish...
             case config.get('password_admin'):
@@ -58,5 +59,6 @@ composer.on('message', async (ctx) => {
         console.log(err);
     }
 });
+
 // Admin panel uchun parolni ilib olish...
 bot.use(composer.middleware())
