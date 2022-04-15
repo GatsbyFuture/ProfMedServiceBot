@@ -22,5 +22,13 @@
     "send_message_btn": "📤 Xabar jo'natish",
     "down_file": "✅ <code>File muvofaqiyatli yuklandi!</code>",
     "copy_file_data": "✅ <code>Malumotlar muofiqiyatli ko'chirildi !</code>",
-    "show_user": "📅 <b>Sana</b> :{n1}\n\n👤 <b>Xodim</b> :{n2}\n🧮 <b>Chiqish soni</b> (kunlarda) :{n3}\n📈 <b>Ish soni soat</b> (oyiga) :{n4}\n🧮 <b>Ish kuni soni</b> :{n5}\n*️⃣ <b>Navbatdagi tunlar soni</b> :{n6}\n💵 <b>Ish haqi</b> :{n7}\n🪓 <b>Zarar uchun</b> :{n8}\n☀️ <b>Kungi smena</b> :{n9}\n🌑 <b>Tungi smena</b> :{n10}\n💤 <b>Dam olish</b> :{n11}\n💸 <b>Qo'shimcha to'lov</b> :{n12}\n💎 <b>Mukofot</b> :{n13}\n💰 <b>Jami hisoblangan</b> :{n14}\n⚖️ <b>Daromad solig'i</b> :{n15}\n⛔️ <b>Qarz</b> :{n16}\n💶 <b>Jami ushlab turilgan</b> :{n17}\n\n⌛️ <b>Joriy qilingan vaqt</b>: {n18}"
+    "show_user": "📅 <b>Sana</b> :{n1}\n\n👤 <b>Xodim</b> :{n2}\n🧮 <b>Chiqish soni</b> (kunlarda) :{n3}\n📈 <b>Ish soni soat</b> (oyiga) :{n4}\n🧮 <b>Ish kuni soni</b> :{n5}\n*️⃣ <b>Navbatdagi tunlar soni</b> :{n6}\n💵 <b>Ish haqi</b> :{n7}\n🪓 <b>Zarar uchun</b> :{n8}\n☀️ <b>Kungi smena</b> :{n9}\n🌑 <b>Tungi smena</b> :{n10}\n💤 <b>Dam olish</b> :{n11}\n💸 <b>Qo'shimcha to'lov</b> :{n12}\n💎 <b>Mukofot</b> :{n13}\n💰 <b>Jami hisoblangan</b> :{n14}\n⚖️ <b>Daromad solig'i</b> :{n15}\n⛔️ <b>Qarz</b> :{n16}\n💶 <b>Jami ushlab turilgan</b> :{n17}\n\n⌛️ <b>Joriy qilingan vaqt</b>: {n18}",
+    "isnt_file": "<code>❗️ File formati xato!</code> <i>Namuna: 'xlsx'</i>",
+    "send_post": "📨 Send post",
+    "post_cancel": "❌",
+    "post_report": "<code>Xabar matnini kiriting!</code>",
+    "message_cancel": "<code>Xabar bekor qilindi!</code>",
+    "accept_message": "Xabarni olgan userlar soni: ",
+    "correct_message": "<code>Xabarni to'g'riligini tekshiring!</code>",
+    "show_user_board": "📅 Sana: {n1}\n\n👤 Xodim: {n2}\n🧮 Chiqish soni (kunlarda): {n3}\n📈 Ish soni soat (oyiga): {n4}\n🧮 Ish kuni soni: {n5}\n*️⃣ Navbatdagi tunlar soni: {n6}\n💵 Ish haqi: {n7}\n🪓 Zarar uchun: {n8}\n☀️ Kungi smena: {n9}\n🌑 Tungi smena: {n10}\n💤 Dam olish: {n11}\n💸 Qo'shimcha to'lov: {n12}\n💎 Mukofot: {n13}\n💰 Jami hisoblangan: {n14}\n⚖️ Daromad solig'i: {n15}\n⛔️ Qarz: {n16}\n💶 Jami ushlab turilgan: {n17}\n\n⌛️ Joriy qilingan vaqt: {n18}"
 }

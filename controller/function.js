@@ -15,7 +15,8 @@ const {
     check_number,
     need_data,
     sleep_status,
-    archive_data
+    archive_data,
+    all_users_id
 } = require('../model/crudData');
 // start bosganda ishga tushadigan function...
 const start_fun = async (ctx) => {
@@ -86,23 +87,29 @@ const allBaseBtn = async (ctx) => {
 // arxivdan malumotlarni tortib kelish va taqdim etish...
 const show_archive = async (ctx) => {
     try {
-        ctx.session.count = 0;
-        ctx.session.show_board = await archive_data(ctx.message.from.id);
-        // console.log(ctx.session.show_board)
-        const show_board0 = await show_data_board(ctx, ctx.session.show_board[0][ctx.session.count]);
-        await ctx.telegram
-            .sendMessage(ctx.message.from.id,
-                show_board0, {
-                reply_markup: Markup.inlineKeyboard([
-                    [
-                        Markup.callbackButton('⬅️', 'backBoard'),
-                        Markup.callbackButton('❌', 'exitBoard'),
-                        Markup.callbackButton('➡️', 'nextBoard'),
-                    ],
-                ])
-            })
-            .then();
-        ctx.deleteMessage(ctx.session.allButton.message_id);
+        let data = await need_data(ctx.message.from.id);
+        if (data.length == 1) {
+            ctx.session.count = 0;
+            ctx.session.show_board = await archive_data(ctx.message.from.id);
+            // console.log(ctx.session.show_board[0])
+            const show_board0 = await show_data_board(ctx, ctx.session.show_board[0][ctx.session.count]);
+            await ctx.telegram
+                .sendMessage(ctx.message.from.id,
+                    show_board0, {
+                    reply_markup: Markup.inlineKeyboard([
+                        [
+                            Markup.callbackButton('⬅️', 'backBoard'),
+                            Markup.callbackButton('❌', 'exitBoard'),
+                            Markup.callbackButton('➡️', 'nextBoard'),
+                        ],
+                    ])
+                })
+                .then();
+        } else {
+            await start_fun(ctx);
+            ctx.deleteMessage(ctx.session.allButton.message_id);
+            ctx.session.checkUser = false;
+        }
     } catch (err) {
         console.log("Arxivning boardini chiqarishda xatolik: " + err);
     }
@@ -139,12 +146,26 @@ const main_buttons = async (ctx) => {
     )
         .then();
 }
+// send post ...
+const send_post = async (ctx) => {
+    ctx.session.adminy = await ctx.replyWithHTML(ctx.i18n.t('correct_message'),
+        Markup.keyboard([
+            [ctx.i18n.t("send_post")],
+            [ctx.i18n.t("post_cancel")],
+        ])
+            .oneTime()
+            .resize()
+            .extra()
+    )
+        .then();
+    ctx.session.send_m = undefined;
+}
 // Excel fayilni jo'natishga tayorgarlik...
 const send_excel = async (ctx) => {
     ctx.replyWithHTML(ctx.i18n.t('send_file_desc'));
     setTimeout(() => {
         ctx.session.rideFile = true;
-    }, 1000);
+    }, 500);
     ctx.deleteMessage(ctx.session.adminx.message_id);
 }
 // Excel fayilni yuklab olish...
@@ -207,10 +228,38 @@ const read_excel = async (ctx) => {
         console.log("Fileni o'qib olishda xatolik :" + err);
     }
 }
+// barcha userlarga chatni automatik tarzda yuborish...
+const send_message = async (ctx) => {
+    try {
+        let users_id = await all_users_id();
+        // console.log(users_id);
+        ctx.replyWithHTML(ctx.i18n.t('accept_message'));
+        // ctx.session.message_id = ctx.message.message_id;
+        let i = 0;
+        let stop = setInterval(() => {
+            // console.log(users_id[i]["chat_id"]);
+            // bot.telegram.editMessageText(ctx.message.from.id, ctx.session.message_id, ctx.i18n.t('accept_message') + (i + 1));
+            // console.log(key);
+            if (i < users_id.length) {
+                if (users_id[i]["chat_id"]) {
+                    ctx.telegram.sendMessage(users_id[i]["chat_id"], ctx.session.message_text);
+                }
+                i++;
+            } else {
+                clearInterval(stop);
+                console.log("Userlarga jo'natilish yakunlandi...");
+                ctx.session.message_id = undefined;
+            }
+        }, 50);
+        await main_buttons(ctx)
+    } catch (err) {
+        console.log("Barchaga chat yuborish: " + err);
+    }
+}
 // arxive datani chiqarish...
 const show_data_board = async (ctx, data) => {
     try {
-        return ctx.i18n.t("show_user")
+        return ctx.i18n.t("show_user_board")
             .replace('{n1}', data["name_date"])
             .replace('{n2}', data["Сотрудники"] == null ? "❌" : data["Сотрудники"])
             .replace('{n3}', data["Кол_во_выходов"] == null ? "❌" : data["Кол_во_выходов"])
@@ -260,7 +309,7 @@ const show_data = async (ctx) => {
             );
         } else {
             await start_fun(ctx);
-            ctx.deleteMessage(ctx.session.allButton);
+            ctx.deleteMessage(ctx.session.allButton.message_id);
             ctx.session.checkUser = false;
         }
     } catch (err) {
@@ -282,5 +331,7 @@ module.exports = {
     down_excel,
     read_excel,
     show_data,
-    show_archive
+    show_archive,
+    send_post,
+    send_message
 }

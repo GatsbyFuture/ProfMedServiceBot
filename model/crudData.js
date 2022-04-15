@@ -27,6 +27,17 @@ const check_number = async (id, number) => {
         console.log("Tel nomerni tekshirishda xatolik ->" + err);
     }
 }
+// userlarni chat_id bo'yicha olib chiqish va ularga chat yuborish...
+const all_users_id = async () => {
+    try {
+        let question = `select chat_id from main_tb where status = 1`;
+        let users = await pool.query(question);
+        return users[0];
+    } catch (err) {
+        console.log("All users send message: " + err);
+    }
+}
+// userni bor yo'qligini tekshirish...
 const check_user = async (id) => {
     try {
         let question = `select chat_id from main_tb where chat_id = ? and status = 1`;
@@ -64,7 +75,7 @@ const archive_data = async (id) => {
         creation_date
         from
         main_tb 
-        where chat_id = ? limit ?,3;`;
+        where chat_id = ? limit ?,3`;
         let min_text = `select 
         name_date,
         Сотрудники,
@@ -86,13 +97,14 @@ const archive_data = async (id) => {
         creation_date 
         from 
         main_tb
-        where id = ?`;
+        where chat_id = ?`;
         let amount_text = `select count(id) as amount from date_tb`;
         let amount = await pool.query(amount_text);
-        if (amount[0][0].amount < 3) {
+        // console.log(amount[0][0]["amount"]);
+        if (amount[0][0]["amount"] < 4) {
             return await pool.query(min_text, [id]);
         } else {
-            return await pool.query(max_text, [id, amount[0][0].amount - 4]);
+            return await pool.query(max_text, [id, amount[0][0]["amount"] - 4]);
         }
     } catch (err) {
         console.log("arxivni tortishda xatolik: " + err);
@@ -134,5 +146,6 @@ module.exports = {
     check_user,
     need_data,
     sleep_status,
-    archive_data
+    archive_data,
+    all_users_id
 }

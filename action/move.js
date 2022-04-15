@@ -95,9 +95,10 @@ composer.action("exitBoard", async (ctx) => {
 // Arxivni keyingi oyga o'tkazish ...
 composer.action("nextBoard", async (ctx) => {
     try {
-        if (ctx.session.count < ctx.session.show_board[0][0].length) {
+        // console.log(ctx.session.count);
+        if (ctx.session.count < ctx.session.show_board[0].length-1) {
             ++ctx.session.count;
-            const data = await show_data_board(ctx, ctx.session.show_board[0][ctx.session.count]);
+            let data = await show_data_board(ctx, ctx.session.show_board[0][ctx.session.count]);
             await ctx.editMessageText(data, {
                 reply_markup: Markup.inlineKeyboard([
                     [
@@ -117,9 +118,10 @@ composer.action("nextBoard", async (ctx) => {
 // Arxivni oldingi oyga o'tkazish...
 composer.action("backBoard", async (ctx) => {
     try {
+        // console.log(ctx.session.count);
         if (0 < ctx.session.count) {
             --ctx.session.count;
-            const data = await show_data_board(ctx, ctx.session.show_board[0][ctx.session.count]);
+            let data = await show_data_board(ctx, ctx.session.show_board[0][ctx.session.count]);
             await ctx.editMessageText(data, {
                 reply_markup: Markup.inlineKeyboard([
                     [

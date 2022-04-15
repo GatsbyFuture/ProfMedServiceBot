@@ -7,7 +7,9 @@ const { start_fun, mainThree, sendContact,
     down_excel,
     read_excel,
     show_data,
-    show_archive
+    show_archive,
+    send_post,
+    send_message
 } = require('../controller/function.js');
 const config = require('config');
 
@@ -38,7 +40,20 @@ composer.on('message', async (ctx) => {
             case "exit@0020912": ctx.session.admin = false; break;
             case ctx.i18n.t('send_file_btn'): await send_excel(ctx); break;
             case ctx.i18n.t('read_file_btn'): await read_excel(ctx); break;
-            case ctx.i18n.t('send_message_btn'): ctx.reply('14'); break;
+            case ctx.i18n.t('send_message_btn'):
+                ctx.replyWithHTML(ctx.i18n.t('post_report'));
+                setTimeout(() => {
+                    ctx.session.send_m = true;
+                }, 100);
+                ctx.deleteMessage(ctx.session.adminx.message_id);
+                break;
+            case ctx.i18n.t('send_post'): await send_message(ctx); break;
+            case ctx.i18n.t('post_cancel'):
+                ctx.replyWithHTML(ctx.i18n.t('message_cancel'));
+                await main_buttons(ctx);
+                ctx.session.message_text = undefined;
+                ctx.deleteMessage(ctx.session.adminy.message_id);
+                break;
             // case "🔍 Qidirish": ctx.reply('13');
             default: break;
         }
@@ -50,10 +65,15 @@ composer.on('message', async (ctx) => {
                 await main_buttons(ctx);
                 ctx.session.rideFile = false;
             } else {
-                ctx.replyWithHTML("<b>❗️ File formati xato!</b> <i>Namuna: 'xlsx'</i>");
+                ctx.replyWithHTML(ctx.i18n.t('message_cancel'));
                 await main_buttons(ctx);
                 ctx.session.rideFile = false;
             }
+        }
+        if (ctx.session.send_m) {
+            ctx.session.message_text = ctx.message.text;
+            console.log(ctx.message.text);
+            await send_post(ctx);
         }
     } catch (err) {
         console.log(err);

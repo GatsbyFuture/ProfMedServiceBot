@@ -17,6 +17,7 @@ composer.start(async (ctx) => {
         await start_fun(ctx);
         // boshlang'ich default holatlar uchun...
         ctx.session.rideFile = undefined;
+        ctx.session.send_m = undefined;
     } catch (err) {
         console.log(err);
     }
