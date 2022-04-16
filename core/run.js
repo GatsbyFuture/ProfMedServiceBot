@@ -1,6 +1,6 @@
 const { Telegraf } = require('telegraf');
 const session = require("telegraf/session");
-require('dotenv').config({path:"./environment/.env"});
+require('dotenv').config({ path: "./environment/.env" });
 const config = require('config');
 const bot = new Telegraf(config.get('bot_token'));
 // Middleware functions ...

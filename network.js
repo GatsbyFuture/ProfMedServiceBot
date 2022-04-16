@@ -159,9 +159,10 @@ const archive_data = async () => {
 //   console.log(files.length)
 // }
 // getNumFiles(dir)
-const fs = require('fs');
-const dir = './archive/';
+// const fs = require('fs');
+// const dir = './archive/';
 
-fs.readdir(dir, (err, files, ctx) => {
-    console.log(typeof files.length);
-});
+// fs.readdir(dir, (err, files, ctx) => {
+//     console.log(typeof files.length);
+// });
+// ****************

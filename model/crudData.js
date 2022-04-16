@@ -100,6 +100,7 @@ const archive_data = async (id) => {
         where chat_id = ?`;
         let amount_text = `select count(id) as amount from date_tb`;
         let amount = await pool.query(amount_text);
+        // console.log(id);
         // console.log(amount[0][0]["amount"]);
         if (amount[0][0]["amount"] < 4) {
             return await pool.query(min_text, [id]);
@@ -140,12 +141,11 @@ const need_data = async (id) => {
         console.log("Dateni tortishda xatolik :" + err);
     }
 }
-
 module.exports = {
     check_number,
     check_user,
     need_data,
     sleep_status,
     archive_data,
-    all_users_id
+    all_users_id,
 }

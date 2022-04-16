@@ -16,7 +16,8 @@ const {
     need_data,
     sleep_status,
     archive_data,
-    all_users_id
+    all_users_id,
+    data_user
 } = require('../model/crudData');
 // start bosganda ishga tushadigan function...
 const start_fun = async (ctx) => {
@@ -88,10 +89,11 @@ const allBaseBtn = async (ctx) => {
 const show_archive = async (ctx) => {
     try {
         let data = await need_data(ctx.message.from.id);
+        // console.log(data);
         if (data.length == 1) {
             ctx.session.count = 0;
             ctx.session.show_board = await archive_data(ctx.message.from.id);
-            // console.log(ctx.session.show_board[0])
+            // console.log(ctx.session.show_board[0]);
             const show_board0 = await show_data_board(ctx, ctx.session.show_board[0][ctx.session.count]);
             await ctx.telegram
                 .sendMessage(ctx.message.from.id,
@@ -259,25 +261,30 @@ const send_message = async (ctx) => {
 // arxive datani chiqarish...
 const show_data_board = async (ctx, data) => {
     try {
-        return ctx.i18n.t("show_user_board")
-            .replace('{n1}', data["name_date"])
-            .replace('{n2}', data["Сотрудники"] == null ? "❌" : data["Сотрудники"])
-            .replace('{n3}', data["Кол_во_выходов"] == null ? "❌" : data["Кол_во_выходов"])
-            .replace('{n4}', data["Кол_во_отраб"] == null ? "❌" : data["Кол_во_отраб"])
-            .replace('{n5}', data["Кол_во_Дежурства_день"] == null ? "❌" : data["Кол_во_Дежурства_день"])
-            .replace('{n6}', data["Кол_о_Дежурства_ночь"] == null ? "❌" : data["Кол_о_Дежурства_ночь"])
-            .replace('{n7}', data["Оклад"] == null ? "❌" : data["Оклад"])
-            .replace('{n8}', data["За_вредность"] == null ? "❌" : data["За_вредность"])
-            .replace('{n9}', data["Дежурства_день"] == null ? "❌" : data["Дежурства_день"])
-            .replace('{n10}', data["Дежурства_ночь"] == null ? "❌" : data["Дежурства_ночь"])
-            .replace('{n11}', data["Отпускные"] == null ? "❌" : data["Отпускные"])
-            .replace('{n12}', data["Доплата"] == null ? "❌" : data["Доплата"])
-            .replace('{n13}', data["Премия"] == null ? "❌" : data["Премия"])
-            .replace('{n14}', data["Всего_ачислено"] == null ? "❌" : data["Всего_ачислено"])
-            .replace('{n15}', data["Подоходный_налог"] == null ? "❌" : data["Подоходный_налог"])
-            .replace('{n16}', data["Займ"] == null ? "❌" : data["Займ"])
-            .replace('{n17}', data["Всего_удержано"] == null ? "❌" : data["Всего_удержано"])
-            .replace('{n18}', data["creation_date"].toString())
+        // console.log(data);
+        if (data != undefined) {
+            return ctx.i18n.t("show_user_board")
+                .replace('{n1}', data["name_date"])
+                .replace('{n2}', data["Сотрудники"] == null ? "❌" : data["Сотрудники"])
+                .replace('{n3}', data["Кол_во_выходов"] == null ? "❌" : data["Кол_во_выходов"])
+                .replace('{n4}', data["Кол_во_отраб"] == null ? "❌" : data["Кол_во_отраб"])
+                .replace('{n5}', data["Кол_во_Дежурства_день"] == null ? "❌" : data["Кол_во_Дежурства_день"])
+                .replace('{n6}', data["Кол_о_Дежурства_ночь"] == null ? "❌" : data["Кол_о_Дежурства_ночь"])
+                .replace('{n7}', data["Оклад"] == null ? "❌" : data["Оклад"])
+                .replace('{n8}', data["За_вредность"] == null ? "❌" : data["За_вредность"])
+                .replace('{n9}', data["Дежурства_день"] == null ? "❌" : data["Дежурства_день"])
+                .replace('{n10}', data["Дежурства_ночь"] == null ? "❌" : data["Дежурства_ночь"])
+                .replace('{n11}', data["Отпускные"] == null ? "❌" : data["Отпускные"])
+                .replace('{n12}', data["Доплата"] == null ? "❌" : data["Доплата"])
+                .replace('{n13}', data["Премия"] == null ? "❌" : data["Премия"])
+                .replace('{n14}', data["Всего_ачислено"] == null ? "❌" : data["Всего_ачислено"])
+                .replace('{n15}', data["Подоходный_налог"] == null ? "❌" : data["Подоходный_налог"])
+                .replace('{n16}', data["Займ"] == null ? "❌" : data["Займ"])
+                .replace('{n17}', data["Всего_удержано"] == null ? "❌" : data["Всего_удержано"])
+                .replace('{n18}', data["creation_date"].toString())
+        } else {
+            return "Sizda arxivi malumotlar mavjud emas!";
+        }
     } catch (err) {
         console.log("arxivni datasini to'g'irlab chiqarishda xatolik: " + err);
     }
@@ -333,5 +340,5 @@ module.exports = {
     show_data,
     show_archive,
     send_post,
-    send_message
+    send_message,
 }
