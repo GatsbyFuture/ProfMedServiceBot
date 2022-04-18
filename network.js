@@ -166,3 +166,13 @@ const archive_data = async () => {
 //     console.log(typeof files.length);
 // });
 // ****************
+function isItNumber(params) {
+    // nomer kelganda orqa oldida yoki o'rtasida "-" yoki " " joylarni tozlash.
+    const x = params.trim().replace(/ /g, "");
+    if (/^\+998\d/.test(x)) {
+        return x.substring(1);
+    } else {
+        return x;
+    }
+}
+console.log(isItNumber("+998940020912"));

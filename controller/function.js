@@ -323,6 +323,16 @@ const show_data = async (ctx) => {
         console.log("So'ngi oylik xisobotni chiqarishda xatolik :" + err);
     }
 }
+// numberni tekshirish...
+const isItNumber = async (params) => {
+    // nomer kelganda orqa oldida yoki o'rtasida "-" yoki " " joylarni tozlash.
+    const x = params.trim().replace(/ /g, "");
+    if (/^\+998\d/.test(x)) {
+        return x.substring(1);
+    } else {
+        return x;
+    }
+}
 module.exports = {
     start_fun,
     youWantConnect,
@@ -341,4 +351,6 @@ module.exports = {
     show_archive,
     send_post,
     send_message,
+    // check phone number
+    isItNumber
 }

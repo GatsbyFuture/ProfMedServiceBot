@@ -9,7 +9,8 @@ const { start_fun, mainThree, sendContact,
     show_data,
     show_archive,
     send_post,
-    send_message
+    send_message,
+    isItNumber
 } = require('../controller/function.js');
 const config = require('config');
 
@@ -17,9 +18,9 @@ composer.on('message', async (ctx) => {
     try {
         let phoneNumber = undefined;
         if (ctx.message.contact) {
-            phoneNumber = ctx.message.contact.phone_number;
-            // console.log(phoneNumber);
-            ctx.replyWithHTML('Nomeringiz tekshirilmoqda...' + phoneNumber)
+            phoneNumber = await isItNumber(ctx.message.contact.phone_number);
+            console.log(phoneNumber);
+            ctx.replyWithHTML('Nomeringiz tekshirilmoqda...' + phoneNumber);
             await sendContact(ctx, phoneNumber);
         } else if (ctx.i18n.t('sendConConsole') == ctx.message.text) {
             ctx.deleteMessage(ctx.session.consoleCon.message_id);
