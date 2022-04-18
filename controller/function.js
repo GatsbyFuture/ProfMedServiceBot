@@ -281,7 +281,8 @@ const show_data_board = async (ctx, data) => {
                 .replace('{n15}', data["Подоходный_налог"] == null ? "❌" : data["Подоходный_налог"])
                 .replace('{n16}', data["Займ"] == null ? "❌" : data["Займ"])
                 .replace('{n17}', data["Всего_удержано"] == null ? "❌" : data["Всего_удержано"])
-                .replace('{n18}', data["creation_date"].toString())
+                .replace('{n18}', data["К_выдаче"] == null ? "❌" : data["К_выдаче"])
+                .replace('{n19}', data["creation_date"].toString())
         } else {
             return "Sizda arxivi malumotlar mavjud emas!";
         }
@@ -312,7 +313,8 @@ const show_data = async (ctx) => {
                 .replace('{n15}', data[0]["Подоходный_налог"] == null ? "❌" : data[0]["Подоходный_налог"])
                 .replace('{n16}', data[0]["Займ"] == null ? "❌" : data[0]["Займ"])
                 .replace('{n17}', data[0]["Всего_удержано"] == null ? "❌" : data[0]["Всего_удержано"])
-                .replace('{n18}', data[0]["creation_date"].toString())
+                .replace('{n18}', data["К_выдаче"] == null ? "❌" : data["К_выдаче"])
+                .replace('{n19}', data[0]["creation_date"].toString())
             );
         } else {
             await start_fun(ctx);

@@ -72,6 +72,7 @@ const archive_data = async (id) => {
         Подоходный_налог,
         Займ,
         Всего_удержано,
+        К_выдаче,
         creation_date
         from
         main_tb 
@@ -94,6 +95,7 @@ const archive_data = async (id) => {
         Подоходный_налог,
         Займ,
         Всего_удержано,
+        К_выдаче,
         creation_date 
         from 
         main_tb
@@ -131,6 +133,7 @@ const need_data = async (id) => {
         Подоходный_налог,
         Займ,
         Всего_удержано,
+        К_выдаче,
         creation_date
         from
         main_tb

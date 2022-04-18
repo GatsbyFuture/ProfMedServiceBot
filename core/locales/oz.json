@@ -22,7 +22,7 @@
     "send_message_btn": "📤 Xabar jo'natish",
     "down_file": "✅ <code>File muvofaqiyatli yuklandi!</code>",
     "copy_file_data": "✅ <code>Malumotlar muofiqiyatli ko'chirildi !</code>",
-    "show_user": "📅 <b>Sana</b> :{n1}\n\n👤 <b>Xodim</b> :{n2}\n🧮 <b>Chiqish soni</b> (kunlarda) :{n3}\n📈 <b>Ish soni soat</b> (oyiga) :{n4}\n🧮 <b>Ish kuni soni</b> :{n5}\n*️⃣ <b>Navbatdagi tunlar soni</b> :{n6}\n💵 <b>Ish haqi</b> :{n7}\n🪓 <b>Zarar uchun</b> :{n8}\n☀️ <b>Kungi smena</b> :{n9}\n🌑 <b>Tungi smena</b> :{n10}\n💤 <b>Dam olish</b> :{n11}\n💸 <b>Qo'shimcha to'lov</b> :{n12}\n💎 <b>Mukofot</b> :{n13}\n💰 <b>Jami hisoblangan</b> :{n14}\n⚖️ <b>Daromad solig'i</b> :{n15}\n⛔️ <b>Qarz</b> :{n16}\n💶 <b>Jami ushlab turilgan</b> :{n17}\n\n⌛️ <b>Joriy qilingan vaqt</b>: {n18}",
+    "show_user": "📅 <b>Sana</b>:  {n1}\n\n👤 <b>Xodim</b>:  {n2}\n🧮 <b>Ishlagan kunlari (kunlarda)</b>:  {n3}\n📈 <b>Ishlagan soati (oyiga)</b>:  {n4}\n🧮 <b>Navbatchilik kunduzgi (soni)</b>: {n5}\n*️⃣ <b>Navbatchilik kechasi (soni)</b>:  {n6}\n💵 <b>Oylik</b>:  {n7}\n🪓 <b>Zararli ish uchun</b>:  {n8}\n☀️ <b>Navbatchilik kunduzgi</b>:  {n9}\n🌑 <b>Navbatchilik kechasi</b>:  {n10}\n💤 <b>Ta’til</b>:  {n11}\n💸 <b>Kushimcha ish</b>:  {n12}\n💎 <b>Mukofot</b>:  {n13}\n💰 <b>Jami xisoblandi</b>: {n14}\n⚖️ <b>Podoxod soligi</b>:  {n15}\n⛔️ <b>Ushlanmalar</b>:  {n16}\n💶 <b>Jami ushlandi</b>:  {n17}\n💰 <b>Qo'lga tegishi: {n18}</b>\n\n⌛️ <b>Joriy qilingan vaqt</b>:  {n19}",
     "isnt_file": "<code>❗️ File formati xato!</code> <i>Namuna: 'xlsx'</i>",
     "send_post": "📨 Send post",
     "post_cancel": "❌",
@@ -30,5 +30,5 @@
     "message_cancel": "<code>Xabar bekor qilindi!</code>",
     "accept_message": "Xabarni olgan userlar soni: ",
     "correct_message": "<code>Xabarni to'g'riligini tekshiring!</code>",
-    "show_user_board": "📅 Sana: {n1}\n\n👤 Xodim: {n2}\n🧮 Chiqish soni (kunlarda): {n3}\n📈 Ish soni soat (oyiga): {n4}\n🧮 Ish kuni soni: {n5}\n*️⃣ Navbatdagi tunlar soni: {n6}\n💵 Ish haqi: {n7}\n🪓 Zarar uchun: {n8}\n☀️ Kungi smena: {n9}\n🌑 Tungi smena: {n10}\n💤 Dam olish: {n11}\n💸 Qo'shimcha to'lov: {n12}\n💎 Mukofot: {n13}\n💰 Jami hisoblangan: {n14}\n⚖️ Daromad solig'i: {n15}\n⛔️ Qarz: {n16}\n💶 Jami ushlab turilgan: {n17}\n\n⌛️ Joriy qilingan vaqt: {n18}"
+    "show_user_board": "📅 Sana:  {n1}\n\n👤 Xodim:  {n2}\n🧮 Ishlagan kunlari (kunlarda):  {n3}\n📈 Ishlagan soati (oyiga):  {n4}\n🧮 Navbatchilik kunduzgi (soni): {n5}\n*️⃣ Navbatchilik kechasi (soni):  {n6}\n💵 Oylik:  {n7}\n🪓 Zararli ish uchun:  {n8}\n☀️ Navbatchilik kunduzgi:  {n9}\n🌑 Navbatchilik kechasi:  {n10}\n💤 Ta’til:  {n11}\n💸 Kushimcha ish:  {n12}\n💎 Mukofot:  {n13}\n💰 Jami xisoblandi: {n14}\n⚖️ Podoxod soligi:  {n15}\n⛔️ Ushlanmalar:  {n16}\n💶 Jami ushlandi:  {n17}\n💰 Qo'lga tegishi: {n18}\n\n⌛️ Joriy qilingan vaqt:  {n19}"
 }
