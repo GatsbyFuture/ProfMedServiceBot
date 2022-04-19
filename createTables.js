@@ -7,7 +7,7 @@ const schema_date = `create table date_tb (
     creation_date datetime default current_timestamp,
     PRIMARY KEY (id),
     KEY id (id)
-) ENGINE=InnoDB AUTO_INCREMENT=604334 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;`;
+) ENGINE=InnoDB AUTO_INCREMENT=604334 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT`;
 const schema_main = `create table main_tb (
     id int(11) not null auto_increment,
     name_date varchar(255) not null,
@@ -46,7 +46,7 @@ const schema_main = `create table main_tb (
     KEY id (id),
     KEY name_date (name_date),
     KEY chat_id (chat_id)
-) ENGINE=InnoDB AUTO_INCREMENT=604334 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;`;
+) ENGINE=InnoDB AUTO_INCREMENT=604334 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT`;
 const schema_foot = `create table foot_tb (
     id int(11) not null auto_increment,
     name_date varchar(255) not null,
@@ -82,7 +82,7 @@ const schema_foot = `create table foot_tb (
     PRIMARY KEY (id),
     KEY id (id),
     KEY name_date (name_date)
-) ENGINE=InnoDB AUTO_INCREMENT=604334 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;`;
+) ENGINE=InnoDB AUTO_INCREMENT=604334 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT`;
 const create_date_tb = async (query) => {
     try {
         await pool.query(query);
