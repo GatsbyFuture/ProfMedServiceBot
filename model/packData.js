@@ -2,6 +2,7 @@
 const { pool } = require('../db/connect_db');
 const data_dateW = async (date) => {
     try {
+        console.log(typeof date);
         await pool.query(
             `insert into date_tb (
                 id,
@@ -10,7 +11,7 @@ const data_dateW = async (date) => {
                 null,
                 ?
             )`,
-            [date["__EMPTY_1"]]
+            [date]
         )
     } catch (err) {
         console.log("data_date ga yozishda xatolik :" + err);
@@ -18,9 +19,16 @@ const data_dateW = async (date) => {
 }
 const data_userW = async (date, data) => {
     try {
+        let debt = 0;
+        for (let key in data) {
+            if (key == "__EMPTY_26" || key == "__EMPTY_22" || key == "__EMPTY_18") {
+                debt = debt + parseInt(data[key] == undefined ? 0 : data[key]);
+            }
+        }
         let array = [
-            date["__EMPTY_1"],
+            date,
             null,
+            data[date],
             data["__EMPTY_1"] == undefined ? null : data["__EMPTY_1"].toString(),
             data["__EMPTY_2"] == undefined ? null : data["__EMPTY_2"].toString(),
             data["__EMPTY_3"] == undefined ? null : data["__EMPTY_3"].toString(),
@@ -43,12 +51,12 @@ const data_userW = async (date, data) => {
             data["__EMPTY_20"] == undefined ? null : data["__EMPTY_20"].toString(),
             data["__EMPTY_21"] == undefined ? null : data["__EMPTY_21"].toString(),
             data["__EMPTY_22"] == undefined ? null : data["__EMPTY_22"].toString(),
-            data["__EMPTY_23"] == undefined ? null : data["__EMPTY_23"].toString(),
+            debt.toString(),
             data["__EMPTY_24"] == undefined ? null : data["__EMPTY_24"].toString(),
             data["__EMPTY_25"] == undefined ? null : data["__EMPTY_25"].toString(),
             data["__EMPTY_26"] == undefined ? null : data["__EMPTY_26"].toString(),
             data["__EMPTY_27"] == undefined ? null : data["__EMPTY_27"].toString(),
-            data["__EMPTY_28"] == undefined ? null : data["__EMPTY_28"].toString(),
+            data["__EMPTY_28"] == undefined ? null : data["__EMPTY_28"].toString()
         ];
         // console.log(array);
         await pool.query(
@@ -82,9 +90,10 @@ const data_userW = async (date, data) => {
                 Всего_удержано,
                 Пластиковые_карточки,
                 Касса_Зарплата,
+                Аванс,
                 К_выдаче,
                 тел_номер
-                ) values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+                ) values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
             array
         );
     } catch (err) {
@@ -93,8 +102,15 @@ const data_userW = async (date, data) => {
 }
 const data_reportW = async (date, data) => {
     try {
+        let debt = 0;
+        for (let key in data) {
+            if (key == "__EMPTY_24" || key == "__EMPTY_22" || key == "__EMPTY_18") {
+                debt = debt + parseInt(data[key] == undefined ? 0 : data[key]);
+            }
+        }
         let array = [
-            date["__EMPTY_1"],
+            date,
+            data[date],
             data["__EMPTY_1"] == undefined ? null : data["__EMPTY_1"].toString(),
             data["__EMPTY_2"] == undefined ? null : data["__EMPTY_2"].toString(),
             data["__EMPTY_3"] == undefined ? null : data["__EMPTY_3"].toString(),
@@ -117,7 +133,7 @@ const data_reportW = async (date, data) => {
             data["__EMPTY_20"] == undefined ? null : data["__EMPTY_20"].toString(),
             data["__EMPTY_21"] == undefined ? null : data["__EMPTY_21"].toString(),
             data["__EMPTY_22"] == undefined ? null : data["__EMPTY_22"].toString(),
-            data["__EMPTY_23"] == undefined ? null : data["__EMPTY_23"].toString(),
+            debt.toString(),
             data["__EMPTY_24"] == undefined ? null : data["__EMPTY_24"].toString(),
             data["__EMPTY_25"] == undefined ? null : data["__EMPTY_25"].toString(),
             data["__EMPTY_26"] == undefined ? null : data["__EMPTY_26"].toString(),
@@ -154,8 +170,9 @@ const data_reportW = async (date, data) => {
                 Всего_удержано,
                 Пластиковые_карточки,
                 Касса_Зарплата,
+                Аванс,
                 К_выдаче
-                ) values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+                ) values (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
             array
         );
     } catch (err) {
@@ -166,5 +183,5 @@ const data_reportW = async (date, data) => {
 module.exports = {
     data_dateW,
     data_userW,
-    data_reportW
+    // data_reportW
 }

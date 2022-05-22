@@ -7,10 +7,6 @@
     "test": "nodemon app.js",
     "start": "node app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GatsbyFuture/ProfMedServiceBot.git"
-  },
   "keywords": [
     "staff",
     "salary",
@@ -18,10 +14,6 @@
   ],
   "author": "Raxmatov Eldorbek",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/GatsbyFuture/ProfMedServiceBot/issues"
-  },
-  "homepage": "https://github.com/GatsbyFuture/ProfMedServiceBot#readme",
   "dependencies": {
     "axios": "^0.25.0",
     "config": "^3.3.7",

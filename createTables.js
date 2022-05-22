@@ -38,6 +38,7 @@ const schema_main = `create table main_tb (
     Всего_удержано varchar(255) default null,
     Пластиковые_карточки varchar(255) default null,
     Касса_Зарплата varchar(255) default null,
+    Аванс varchar(255) default null,
     К_выдаче varchar(255) default null,
     тел_номер varchar(255) default null,
     status int default 1,
@@ -76,6 +77,7 @@ const schema_foot = `create table foot_tb (
     Всего_удержано varchar(255) default null,
     Пластиковые_карточки varchar(255) default null,
     Касса_Зарплата varchar(255) default null,
+    Аванс varchar(255) default null,
     К_выдаче varchar(255) default null,
     status int default 1,
     creation_date datetime default current_timestamp,
@@ -109,4 +111,4 @@ const create_foot_tb = async (query) => {
 }
 create_date_tb(schema_date);
 create_main_tb(schema_main);
-create_foot_tb(schema_foot);
+// create_foot_tb(schema_foot);

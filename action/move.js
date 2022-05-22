@@ -18,7 +18,7 @@ composer.action('rus', async (ctx) => {
             ctx.i18n.locale('ru');
             await youWantConnect(ctx);
         }
-        ctx.deleteMessage();
+        ctx.deleteMessage().then();;
     } catch (err) {
         console.log(err);
     }
@@ -35,7 +35,7 @@ composer.action('uz', async (ctx) => {
             ctx.i18n.locale('oz');
             await youWantConnect(ctx);
         }
-        ctx.deleteMessage();
+        ctx.deleteMessage().then();;
     } catch (err) {
         console.log(err);
     }
@@ -52,7 +52,7 @@ composer.action('уз', async (ctx) => {
             ctx.i18n.locale('uz');
             await youWantConnect(ctx);
         }
-        ctx.deleteMessage();
+        ctx.deleteMessage().then();;
     } catch (err) {
         console.log(err);
     }
@@ -61,7 +61,7 @@ composer.action('уз', async (ctx) => {
 composer.action('goru', async (ctx) => {
     try {
         await pushContanct(ctx);
-        ctx.deleteMessage();
+        ctx.deleteMessage().then();;
     } catch (err) {
         console.log(err);
     }
@@ -69,7 +69,7 @@ composer.action('goru', async (ctx) => {
 composer.action('gouz', async (ctx) => {
     try {
         await pushContanct(ctx);
-        ctx.deleteMessage();
+        ctx.deleteMessage().then();;
     } catch (err) {
         console.log(err);
     }
@@ -77,7 +77,7 @@ composer.action('gouz', async (ctx) => {
 composer.action('goуз', async (ctx) => {
     try {
         await pushContanct(ctx);
-        ctx.deleteMessage();
+        ctx.deleteMessage().then();;
     } catch (err) {
         console.log(err);
     }
@@ -96,7 +96,7 @@ composer.action("exitBoard", async (ctx) => {
 composer.action("nextBoard", async (ctx) => {
     try {
         // console.log(ctx.session.count);
-        if (ctx.session.count < ctx.session.show_board[0].length-1) {
+        if (ctx.session.count < ctx.session.show_board[0].length - 1) {
             ++ctx.session.count;
             let data = await show_data_board(ctx, ctx.session.show_board[0][ctx.session.count]);
             await ctx.editMessageText(data, {

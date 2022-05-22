@@ -2,13 +2,22 @@
 const { pool } = require('../db/connect_db');
 // bazadan userni nomeri bo'yicha tekshirish va bor bo'lsa unga chat_id beradi...
 const sleep_status = async () => {
-    let date_query = `UPDATE date_tb SET status=0`;
-    let main_query = `UPDATE main_tb SET status=0`;
-    let foot_query = `UPDATE foot_tb SET status=0`;
-    await pool.query(date_query);
-    await pool.query(main_query);
-    await pool.query(foot_query);
-    console.log("Datalarni statusini 0 ga tushurish...");
+    try {
+        let data = pool.query("select * from date_tb");
+        if (data) {
+            let date_query = `UPDATE date_tb SET status=0`;
+            let main_query = `UPDATE main_tb SET status=0`;
+            // let foot_query = `UPDATE foot_tb SET status=0`;
+            await pool.query(date_query);
+            await pool.query(main_query);
+            // await pool.query(foot_query);
+            console.log("Datalarni statusini 0 ga tushurish...");
+        } else {
+            console.log("Data statusini 0 qilishda data yo'q!");
+        }
+    } catch (err) {
+        console.log("statuslarni 0 qilishda xatolik: " + err);
+    }
 }
 const check_number = async (id, number) => {
     try {
@@ -51,7 +60,7 @@ const check_user = async (id) => {
         console.log("Userni mavjudligini tekshirishda xatolik ->" + err);
     }
 }
-// joriy oylik xisoboti...
+// arxive oylik xisoboti...
 const archive_data = async (id) => {
     try {
         let max_text = `select 
@@ -72,6 +81,7 @@ const archive_data = async (id) => {
         Подоходный_налог,
         Займ,
         Всего_удержано,
+        Аванс,
         К_выдаче,
         creation_date
         from
@@ -95,6 +105,7 @@ const archive_data = async (id) => {
         Подоходный_налог,
         Займ,
         Всего_удержано,
+        Аванс,
         К_выдаче,
         creation_date 
         from 
@@ -113,6 +124,7 @@ const archive_data = async (id) => {
         console.log("arxivni tortishda xatolik: " + err);
     }
 }
+// joriy oylikni tortish...
 const need_data = async (id) => {
     try {
         let question = `select
@@ -133,6 +145,7 @@ const need_data = async (id) => {
         Подоходный_налог,
         Займ,
         Всего_удержано,
+        Аванс,
         К_выдаче,
         creation_date
         from

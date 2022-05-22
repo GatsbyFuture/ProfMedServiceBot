@@ -17,8 +17,13 @@ const {
     sleep_status,
     archive_data,
     all_users_id,
+    check_user,
     data_user
 } = require('../model/crudData');
+String.prototype.insert = function (index, string) {
+    var ind = index < 0 ? this.length + index : index;
+    return this.substring(0, ind) + string + this.substring(ind);
+};
 // start bosganda ishga tushadigan function...
 const start_fun = async (ctx) => {
     await ctx.replyWithHTML("<b>Tilni tanlang | Тилни танланг \n Выберите язык ⬇️</b>",
@@ -44,7 +49,7 @@ const youWantConnect = async (ctx) => {
 }
 // take phone number or go back menu...
 const pushContanct = async (ctx) => {
-    ctx.session.consoleCon = await ctx.replyWithHTML(ctx.i18n.t('questionPhone'),
+    await ctx.replyWithHTML(ctx.i18n.t('questionPhone'),
         Markup.keyboard([
             [{
                 text: ctx.i18n.t('sendContact'),
@@ -60,7 +65,6 @@ const pushContanct = async (ctx) => {
 }
 // check users phon number, They have number or not...
 const sendContact = async (ctx, phoneNumber) => {
-    ctx.deleteMessage(ctx.session.consoleCon.message_id);
     // bazadan userni qidiradi tel nomeri bo'yicha keyin qo'lsa true or false
     let result = await check_number(ctx.message.from.id, phoneNumber);
     if (result) {
@@ -68,6 +72,13 @@ const sendContact = async (ctx, phoneNumber) => {
         await allBaseBtn(ctx);
         ctx.session.checkUser = true;
     } else {
+        await ctx.reply(
+            ctx.i18n.t('load'),
+            {
+                parse_mode: "markdown",
+                reply_markup: { remove_keyboard: true },
+            }
+        );
         ctx.replyWithHTML("Sizni so'rovingiz qabul qilinmadi Bugalter bilan uchrashing");
     }
 }
@@ -88,6 +99,13 @@ const allBaseBtn = async (ctx) => {
 // arxivdan malumotlarni tortib kelish va taqdim etish...
 const show_archive = async (ctx) => {
     try {
+        await ctx.reply(
+            ctx.i18n.t('load'),
+            {
+                parse_mode: "markdown",
+                reply_markup: { remove_keyboard: true },
+            }
+        );
         let data = await need_data(ctx.message.from.id);
         // console.log(data);
         if (data.length == 1) {
@@ -109,7 +127,6 @@ const show_archive = async (ctx) => {
                 .then();
         } else {
             await start_fun(ctx);
-            ctx.deleteMessage(ctx.session.allButton.message_id);
             ctx.session.checkUser = false;
         }
     } catch (err) {
@@ -120,10 +137,22 @@ const show_archive = async (ctx) => {
 const mainThree = async (ctx) => {
     try {
         if (ctx.session.exit_type) {
-            ctx.deleteMessage(ctx.session.adminx.message_id);
+            await ctx.reply(
+                ctx.i18n.t('load'),
+                {
+                    parse_mode: "markdown",
+                    reply_markup: { remove_keyboard: true },
+                }
+            );
             ctx.session.adminx = undefined;
         } else {
-            ctx.deleteMessage(ctx.session.allButton.message_id);
+            await ctx.reply(
+                ctx.i18n.t('load'),
+                {
+                    parse_mode: "markdown",
+                    reply_markup: { remove_keyboard: true },
+                }
+            );
             ctx.session.allBaseBtn = undefined;
         }
         await start_fun(ctx);
@@ -134,7 +163,7 @@ const mainThree = async (ctx) => {
 // Admin panel uchun functions
 const main_buttons = async (ctx) => {
     ctx.session.exit_type = true;
-    ctx.session.adminx = await ctx.replyWithHTML(ctx.i18n.t("addmin_desc"),
+    await ctx.replyWithHTML(ctx.i18n.t("addmin_desc"),
         Markup.keyboard([
             [ctx.i18n.t("send_file_btn"), ctx.i18n.t("read_file_btn")],
             [ctx.i18n.t("send_message_btn")],
@@ -150,7 +179,7 @@ const main_buttons = async (ctx) => {
 }
 // send post ...
 const send_post = async (ctx) => {
-    ctx.session.adminy = await ctx.replyWithHTML(ctx.i18n.t('correct_message'),
+    await ctx.replyWithHTML(ctx.i18n.t('correct_message'),
         Markup.keyboard([
             [ctx.i18n.t("send_post")],
             [ctx.i18n.t("post_cancel")],
@@ -168,13 +197,20 @@ const send_excel = async (ctx) => {
     setTimeout(() => {
         ctx.session.rideFile = true;
     }, 500);
-    ctx.deleteMessage(ctx.session.adminx.message_id);
+    if (ctx.session.adminx)
+        await ctx.reply(
+            ctx.i18n.t('load'),
+            {
+                parse_mode: "markdown",
+                reply_markup: { remove_keyboard: true },
+            }
+        );
 }
 // Excel fayilni yuklab olish...
 const down_excel = async (ctx) => {
     try {
         let file_path = undefined;
-        await axios.post(`https://api.telegram.org/bot1918886076:AAGkIpT42ip8eD1zV9Ec5k4smSGF9ulpx8s/getFile?file_id=${ctx.update.message.document.file_id}`)
+        await axios.post(`https://api.telegram.org/bot5396656344:AAE7hHNsFwhcmeAHM9mTxiYHvIqOMoD2PAc/getFile?file_id=${ctx.update.message.document.file_id}`)
             .then((result) => {
                 // console.log(result.data.result.file_path);
                 if (result.status == 200) {
@@ -185,8 +221,8 @@ const down_excel = async (ctx) => {
             .catch((err) => {
                 console.log(err);
             })
-        https.get(`https://api.telegram.org/file/bot1918886076:AAGkIpT42ip8eD1zV9Ec5k4smSGF9ulpx8s/${file_path}`, (res) => {
-            const fileStream = fs.createWriteStream(`E:/ProfMedServiceBot/archive/${ctx.update.message.document.file_name}`);
+        https.get(`https://api.telegram.org/file/bot5396656344:AAE7hHNsFwhcmeAHM9mTxiYHvIqOMoD2PAc/${file_path}`, (res) => {
+            const fileStream = fs.createWriteStream(`D:/Profmedservice/archive/${ctx.update.message.document.file_name}`);
             res.pipe(fileStream);
             fileStream.on('finish', () => {
                 fileStream.close();
@@ -204,23 +240,27 @@ const read_excel = async (ctx) => {
     try {
         // file yangi yuklanayotganda eski bazadagi malumotlarini o'chirib qo'yadi..
         await sleep_status();
-        const workbook = XLSX.readFile(`E:/ProfMedServiceBot/archive/${ctx.session.file_name}`);
+        const workbook = XLSX.readFile(`D:/Profmedservice/archive/${ctx.session.file_name}`);
         const workbookSheets = workbook.SheetNames;
         // console.log(workbookSheets);
         const sheet = workbookSheets[0];
         const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
         // console.log(dataExcel);
         // Kelgan malumotini datasini yozadi...
-        await data_dateW(dataExcel[0]);
+        for (let key in dataExcel[0]) {
+            await data_dateW(key);
+        }
         // Kelgan user datalarini yozadi...
-        for (let i = 2; i < dataExcel.length - 1; i++) {
-            await data_userW(dataExcel[0], dataExcel[i]);
+        for (let key in dataExcel[0]) {
+            for (let i = 2; i < dataExcel.length - 1; i++) {
+                await data_userW(key, dataExcel[i]);
+            }
         }
         // Kelgan ITOGO ni datasini yozish...
-        await data_reportW(dataExcel[0], dataExcel[dataExcel.length - 1]);
+        // await data_reportW(dataExcel[0], dataExcel[dataExcel.length - 1]);
         ctx.replyWithHTML(ctx.i18n.t('copy_file_data'));
         setTimeout(() => {
-            fs.unlink(`E:/ProfMedServiceBot/archive/${ctx.session.file_name}`, function (err) {
+            fs.unlink(`D:/Profmedservice/archive/${ctx.session.file_name}`, function (err) {
                 if (err) throw err;
                 // if no error, file has been deleted successfully
                 console.log('File deleted!');
@@ -235,7 +275,7 @@ const send_message = async (ctx) => {
     try {
         let users_id = await all_users_id();
         // console.log(users_id);
-        ctx.replyWithHTML(ctx.i18n.t('accept_message'));
+        // ctx.replyWithHTML(ctx.i18n.t('accept_message'));
         // ctx.session.message_id = ctx.message.message_id;
         let i = 0;
         let stop = setInterval(() => {
@@ -244,7 +284,14 @@ const send_message = async (ctx) => {
             // console.log(key);
             if (i < users_id.length) {
                 if (users_id[i]["chat_id"]) {
-                    ctx.telegram.sendMessage(users_id[i]["chat_id"], ctx.session.message_text);
+                    ctx.telegram
+                        .sendMessage(users_id[i]["chat_id"], ctx.session.message_text)
+                        .then((Response) => {
+                            // console.log("userga yuborildi!");
+                        })
+                        .catch((err) => {
+                            console.log("blocklangan user!");
+                        });
                 }
                 i++;
             } else {
@@ -255,7 +302,7 @@ const send_message = async (ctx) => {
         }, 50);
         await main_buttons(ctx)
     } catch (err) {
-        console.log("Barchaga chat yuborish: " + err);
+        console.log("Barchaga chat yuborishda xatolik: " + err);
     }
 }
 // arxive datani chiqarish...
@@ -265,24 +312,43 @@ const show_data_board = async (ctx, data) => {
         if (data != undefined) {
             return ctx.i18n.t("show_user_board")
                 .replace('{n1}', data["name_date"])
-                .replace('{n2}', data["Сотрудники"] == null ? "❌" : data["Сотрудники"])
-                .replace('{n3}', data["Кол_во_выходов"] == null ? "❌" : data["Кол_во_выходов"])
-                .replace('{n4}', data["Кол_во_отраб"] == null ? "❌" : data["Кол_во_отраб"])
-                .replace('{n5}', data["Кол_во_Дежурства_день"] == null ? "❌" : data["Кол_во_Дежурства_день"])
-                .replace('{n6}', data["Кол_о_Дежурства_ночь"] == null ? "❌" : data["Кол_о_Дежурства_ночь"])
-                .replace('{n7}', data["Оклад"] == null ? "❌" : data["Оклад"])
-                .replace('{n8}', data["За_вредность"] == null ? "❌" : data["За_вредность"])
-                .replace('{n9}', data["Дежурства_день"] == null ? "❌" : data["Дежурства_день"])
-                .replace('{n10}', data["Дежурства_ночь"] == null ? "❌" : data["Дежурства_ночь"])
-                .replace('{n11}', data["Отпускные"] == null ? "❌" : data["Отпускные"])
-                .replace('{n12}', data["Доплата"] == null ? "❌" : data["Доплата"])
-                .replace('{n13}', data["Премия"] == null ? "❌" : data["Премия"])
-                .replace('{n14}', data["Всего_ачислено"] == null ? "❌" : data["Всего_ачислено"])
-                .replace('{n15}', data["Подоходный_налог"] == null ? "❌" : data["Подоходный_налог"])
-                .replace('{n16}', data["Займ"] == null ? "❌" : data["Займ"])
-                .replace('{n17}', data["Всего_удержано"] == null ? "❌" : data["Всего_удержано"])
-                .replace('{n18}', data["К_выдаче"] == null ? "❌" : data["К_выдаче"])
-                .replace('{n19}', data["creation_date"].toString())
+                .replace('{n2}', data["Сотрудники"] == null ? "❌" :
+                    data["Сотрудники"])
+                .replace('{n3}', data["Кол_во_выходов"] == null ? "❌" :
+                    data["Кол_во_выходов"].length > 3 && data["Кол_во_выходов"].length <= 6 ? data["Кол_во_выходов"].insert(-3, " ") : data["Кол_во_выходов"].insert(-3, " ").insert(-7, " "))
+                .replace('{n4}', data["Кол_во_отраб"] == null ? "❌" :
+                    data["Кол_во_отраб"].length > 3 && data["Кол_во_отраб"].length <= 6 ? data["Кол_во_отраб"].insert(-3, " ") : data["Кол_во_отраб"].insert(-3, " ").insert(-7, " "))
+                .replace('{n5}', data["Кол_во_Дежурства_день"] == null ? "❌" :
+                    data["Кол_во_Дежурства_день"].length > 3 && data["Кол_во_Дежурства_день"].length <= 6 ? data["Кол_во_Дежурства_день"].insert(-3, " ") : data["Кол_во_Дежурства_день"].insert(-3, " ").insert(-7, " "))
+                .replace('{n6}', data["Кол_о_Дежурства_ночь"] == null ? "❌" :
+                    data["Кол_о_Дежурства_ночь"].length > 3 && data["Кол_о_Дежурства_ночь"].length <= 6 ? data["Кол_о_Дежурства_ночь"].insert(-3, " ") : data["Кол_о_Дежурства_ночь"].insert(-3, " ").insert(-7, " "))
+                .replace('{n7}', data["Окклад"] == null ? "❌" :
+                    data["Окклад"].length > 3 && data["Окклад"].length <= 6 ? data["Окклад"].insert(-3, " ") : data["Окклад"].insert(-3, " ").insert(-7, " "))
+                .replace('{n8}', data["За_вредность"] == null ? "❌" :
+                    data["За_вредность"].length > 3 && data["За_вредность"].length <= 6 ? data["За_вредность"].insert(-3, " ") : data["За_вредность"].insert(-3, " ").insert(-7, " "))
+                .replace('{n9}', data["Дежурства_день"] == null ? "❌" :
+                    data["Дежурства_день"].length > 3 && data["Дежурства_день"].length <= 6 ? data["Дежурства_день"].insert(-3, " ") : data["Дежурства_день"].insert(-3, " ").insert(-7, " "))
+                .replace('{n10}', data["Дежурства_ночь"] == null ? "❌" :
+                    data["Дежурства_ночь"].length > 3 && data["Дежурства_ночь"].length <= 6 ? data["Дежурства_ночь"].insert(-3, " ") : data["Дежурства_ночь"].insert(-3, " ").insert(-7, " "))
+                .replace('{n11}', data["Отпускные"] == null ? "❌" :
+                    data["Отпускные"].length > 3 && data["Отпускные"].length <= 6 ? data["Отпускные"].insert(-3, " ") : data["Отпускные"].insert(-3, " ").insert(-7, " "))
+                .replace('{n12}', data["Доплата"] == null ? "❌" :
+                    data["Доплата"].length > 3 && data["Доплата"].length <= 6 ? data["Доплата"].insert(-3, " ") : data["Доплата"].insert(-3, " ").insert(-7, " "))
+                .replace('{n13}', data["Премия"] == null ? "❌" :
+                    data["Премия"].length > 3 && data["Премия"].length <= 6 ? data["Премия"].insert(-3, " ") : data["Премия"].insert(-3, " ").insert(-7, " "))
+                .replace('{n14}', data["Всего_ачислено"] == null ? "❌" :
+                    data["Всего_ачислено"].length > 3 && data["Всего_ачислено"].length <= 6 ? data["Всего_ачислено"].insert(-3, " ") : data["Всего_ачислено"].insert(-3, " ").insert(-7, " "))
+                .replace('{n15}', data["Подоходный_налог"] == null ? "❌" :
+                    data["Подоходный_налог"].length > 3 && data["Подоходный_налог"].length <= 6 ? data["Подоходный_налог"].insert(-3, " ") : data["Подоходный_налог"].insert(-3, " ").insert(-7, " "))
+                .replace('{n16}', data["Займ"] == null ? "❌" :
+                    data["Займ"].length > 3 && data["Займ"].length <= 6 ? data["Займ"].insert(-3, " ") : data["Займ"].insert(-3, " ").insert(-7, " "))
+                .replace('{n17}', data["Всего_удержано"] == null ? "❌" :
+                    data["Всего_удержано"].length > 3 && data["Всего_удержано"].length <= 6 ? data["Всего_удержано"].insert(-3, " ") : data["Всего_удержано"].insert(-3, " ").insert(-7, " "))
+                .replace('{n18}', data["Аванс"] == null ? "❌" :
+                    data["Аванс"].length > 3 && data["Аванс"].length <= 6 ? data["Аванс"].insert(-3, " ") : data["Аванс"].insert(-3, " ").insert(-7, " "))
+                .replace('{n19}', data["К_выдаче"] == null ? "❌" :
+                    data["К_выдаче"].length > 3 && data["К_выдаче"].length <= 6 ? data["К_выдаче"].insert(-3, " ") : data["К_выдаче"].insert(-3, " ").insert(-7, " "))
+                .replace('{n20}', data["creation_date"].toString())
         } else {
             return "Sizda arxivi malumotlar mavjud emas!";
         }
@@ -290,35 +356,63 @@ const show_data_board = async (ctx, data) => {
         console.log("arxivni datasini to'g'irlab chiqarishda xatolik: " + err);
     }
 }
-// oylik xisobotni userga chiqarib berish uchun...
+// oylik xisobotni userga chiqarib berish uchun...ctx.message.from.id
 const show_data = async (ctx) => {
     try {
+        // console.log(ctx.message.from.id)
         let data = await need_data(ctx.message.from.id);
+        // console.log(data);
         if (data.length == 1) {
             ctx.replyWithHTML(ctx.i18n.t("show_user")
                 .replace('{n1}', data[0]["name_date"])
-                .replace('{n2}', data[0]["Сотрудники"] == null ? "❌" : data[0]["Сотрудники"])
-                .replace('{n3}', data[0]["Кол_во_выходов"] == null ? "❌" : data[0]["Кол_во_выходов"])
-                .replace('{n4}', data[0]["Кол_во_отраб"] == null ? "❌" : data[0]["Кол_во_отраб"])
-                .replace('{n5}', data[0]["Кол_во_Дежурства_день"] == null ? "❌" : data[0]["Кол_во_Дежурства_день"])
-                .replace('{n6}', data[0]["Кол_о_Дежурства_ночь"] == null ? "❌" : data[0]["Кол_о_Дежурства_ночь"])
-                .replace('{n7}', data[0]["Оклад"] == null ? "❌" : data[0]["Оклад"])
-                .replace('{n8}', data[0]["За_вредность"] == null ? "❌" : data[0]["За_вредность"])
-                .replace('{n9}', data[0]["Дежурства_день"] == null ? "❌" : data[0]["Дежурства_день"])
-                .replace('{n10}', data[0]["Дежурства_ночь"] == null ? "❌" : data[0]["Дежурства_ночь"])
-                .replace('{n11}', data[0]["Отпускные"] == null ? "❌" : data[0]["Отпускные"])
-                .replace('{n12}', data[0]["Доплата"] == null ? "❌" : data[0]["Доплата"])
-                .replace('{n13}', data[0]["Премия"] == null ? "❌" : data[0]["Премия"])
-                .replace('{n14}', data[0]["Всего_ачислено"] == null ? "❌" : data[0]["Всего_ачислено"])
-                .replace('{n15}', data[0]["Подоходный_налог"] == null ? "❌" : data[0]["Подоходный_налог"])
-                .replace('{n16}', data[0]["Займ"] == null ? "❌" : data[0]["Займ"])
-                .replace('{n17}', data[0]["Всего_удержано"] == null ? "❌" : data[0]["Всего_удержано"])
-                .replace('{n18}', data["К_выдаче"] == null ? "❌" : data["К_выдаче"])
-                .replace('{n19}', data[0]["creation_date"].toString())
+                .replace('{n2}', data[0]["Сотрудники"] == null ? "❌" :
+                    data[0]["Сотрудники"])
+                .replace('{n3}', data[0]["Кол_во_выходов"] == null ? "❌" :
+                    data[0]["Кол_во_выходов"].length > 3 && data[0]["Кол_во_выходов"].length <= 6 ? data[0]["Кол_во_выходов"].insert(-3, " ") : data[0]["Кол_во_выходов"].insert(-3, " ").insert(-7, " "))
+                .replace('{n4}', data[0]["Кол_во_отраб"] == null ? "❌" :
+                    data[0]["Кол_во_отраб"].length > 3 && data[0]["Кол_во_отраб"].length <= 6 ? data[0]["Кол_во_отраб"].insert(-3, " ") : data[0]["Кол_во_отраб"].insert(-3, " ").insert(-7, " "))
+                .replace('{n5}', data[0]["Кол_во_Дежурства_день"] == null ? "❌" :
+                    data[0]["Кол_во_Дежурства_день"].length > 3 && data[0]["Кол_во_Дежурства_день"].length <= 6 ? data[0]["Кол_во_Дежурства_день"].insert(-3, " ") : data[0]["Кол_во_Дежурства_день"].insert(-3, " ").insert(-7, " "))
+                .replace('{n6}', data[0]["Кол_о_Дежурства_ночь"] == null ? "❌" :
+                    data[0]["Кол_о_Дежурства_ночь"].length > 3 && data[0]["Кол_о_Дежурства_ночь"].length <= 6 ? data[0]["Кол_о_Дежурства_ночь"].insert(-3, " ") : data[0]["Кол_о_Дежурства_ночь"].insert(-3, " ").insert(-7, " "))
+                .replace('{n7}', data[0]["Оклад"] == null ? "❌" :
+                    data[0]["Оклад"].length > 3 && data[0]["Оклад"].length <= 6 ? data[0]["Оклад"].insert(-3, " ") : data[0]["Оклад"].insert(-3, " ").insert(-7, " "))
+                .replace('{n8}', data[0]["За_вредность"] == null ? "❌" :
+                    data[0]["За_вредность"].length > 3 && data[0]["За_вредность"].length <= 6 ? data[0]["За_вредность"].insert(-3, " ") : data[0]["За_вредность"].insert(-3, " ").insert(-7, " "))
+                .replace('{n9}', data[0]["Дежурства_день"] == null ? "❌" :
+                    data[0]["Дежурства_день"].length > 3 && data[0]["Дежурства_день"].length <= 6 ? data[0]["Дежурства_день"].insert(-3, " ") : data[0]["Дежурства_день"].insert(-3, " ").insert(-7, " "))
+                .replace('{n10}', data[0]["Дежурства_ночь"] == null ? "❌" :
+                    data[0]["Дежурства_ночь"].length > 3 && data[0]["Дежурства_ночь"].length <= 6 ? data[0]["Дежурства_ночь"].insert(-3, " ") : data[0]["Дежурства_ночь"].insert(-3, " ").insert(-7, " "))
+                .replace('{n11}', data[0]["Отпускные"] == null ? "❌" :
+                    data[0]["Отпускные"].length > 3 && data[0]["Отпускные"].length <= 6 ? data[0]["Отпускные"].insert(-3, " ") : data[0]["Отпускные"].insert(-3, " ").insert(-7, " "))
+                .replace('{n12}', data[0]["Доплата"] == null ? "❌" :
+                    data[0]["Доплата"].length > 3 && data[0]["Доплата"].length <= 6 ? data[0]["Доплата"].insert(-3, " ") : data[0]["Доплата"].insert(-3, " ").insert(-7, " "))
+                .replace('{n13}', data[0]["Премия"] == null ? "❌" :
+                    data[0]["Премия"].length > 3 && data[0]["Премия"].length <= 6 ? data[0]["Премия"].insert(-3, " ") : data[0]["Премия"].insert(-3, " ").insert(-7, " "))
+                .replace('{n14}', data[0]["Всего_ачислено"] == null ? "❌" :
+                    data[0]["Всего_ачислено"].length > 3 && data[0]["Всего_ачислено"].length <= 6 ? data[0]["Всего_ачислено"].insert(-3, " ") : data[0]["Всего_ачислено"].insert(-3, " ").insert(-7, " "))
+                .replace('{n15}', data[0]["Подоходный_налог"] == null ? "❌" :
+                    data[0]["Подоходный_налог"].length > 3 && data[0]["Подоходный_налог"].length <= 6 ? data[0]["Подоходный_налог"].insert(-3, " ") : data[0]["Подоходный_налог"].insert(-3, " ").insert(-7, " "))
+                .replace('{n16}', data[0]["Займ"] == null ? "❌" :
+                    data[0]["Займ"].length > 3 && data[0]["Займ"].length <= 6 ? data[0]["Займ"].insert(-3, " ") : data[0]["Займ"].insert(-3, " ").insert(-7, " "))
+                .replace('{n17}', data[0]["Всего_удержано"] == null ? "❌" :
+                    data[0]["Всего_удержано"].length > 3 && data[0]["Всего_удержано"].length <= 6 ? data[0]["Всего_удержано"].insert(-3, " ") : data[0]["Всего_удержано"].insert(-3, " ").insert(-7, " "))
+                .replace('{n18}', data[0]["Аванс"] == null ? "❌" :
+                    data[0]["Аванс"].length > 3 && data[0]["Аванс"].length <= 6 ? data[0]["Аванс"].insert(-3, " ") : data[0]["Аванс"].insert(-3, " ").insert(-7, " "))
+                .replace('{n19}', data[0]["К_выдаче"] == null ? "❌" :
+                    data[0]["К_выдаче"].length > 3 && data[0]["К_выдаче"].length <= 6 ? data[0]["К_выдаче"].insert(-3, " ") : data[0]["К_выдаче"].insert(-3, " ").insert(-7, " "))
+                .replace('{n20}', data[0]["creation_date"].toString())
             );
         } else {
             await start_fun(ctx);
-            ctx.deleteMessage(ctx.session.allButton.message_id);
+            await ctx.reply(
+                ctx.i18n.t('load'),
+                {
+                    parse_mode: "markdown",
+                    reply_markup: { remove_keyboard: true },
+                }
+            );
+
             ctx.session.checkUser = false;
         }
     } catch (err) {
